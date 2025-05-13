@@ -4,8 +4,9 @@ public class ControllerUser {
 
 	public ControllerUser() {
 		// TODO Auto-generated constructor stub
-			
+		
 		}
+	
 	public String assingname(String name) {
 	return name ;
 	
@@ -22,9 +23,7 @@ public class ControllerUser {
 	public String assignemail(String email) {
 	return email;	
 	}
-	private String assignpassword(String password) {
-	return password;	
-	}
+	
 	public Boolean createacount(Boolean f) {
 	return true;	
 	}

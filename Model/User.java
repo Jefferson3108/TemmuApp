@@ -1,30 +1,51 @@
 package Model;
-
+import java.util.Scanner;
 public class User {
+	String name;
+	Integer age;
+	String number;
+	String city;
+	String Email;
+	String Password;
 
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
-	public String assingname(String name) {
-		return name ;
+	public void assignname() {
 		
+		Scanner input= new Scanner(System.in);
+		name=input.nextLine();
+		System.out.println("Su nombre es: "+name);
 		}
-		public Integer assignage(Integer age) {
-		return age;	
+		public void assignage() {
+			Scanner input= new Scanner(System.in);
+			age=input.nextInt();
+			System.out.println("Su edad es: "+age);
+				
 		}
-		public Integer assignnumber(Integer number) {
-		return number;	
+		public void assignnumber() {
+			Scanner input= new Scanner(System.in);
+			number=input.nextLine();
+			System.out.println("Su numero es: "+number);
+			
 		}
-		public String assigncity(String city) {
-		return city;	
+		public void assigncity() {
+			Scanner input= new Scanner(System.in);
+			city=input.nextLine();
+			System.out.println("La ciudad es: "+city);	
 		}
-		public String assignemail(String email) {
-		return email;	
+		public void assignemail() {
+			Scanner input= new Scanner(System.in);
+			Email=input.nextLine();
+			System.out.println("El Email es: "+Email);	
+		} 
+		public void assignpassword() {
+			Scanner input= new Scanner(System.in);
+			Password=input.nextLine();	
 		}
-		private String assignpassword(String password) {
-		return password;	
-		}
+		
 		public Boolean createacount(Boolean f) {
+		
 		return true;	
 		}
 		public Boolean validateemail(Boolean f) {
