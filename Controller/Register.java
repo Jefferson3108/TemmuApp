@@ -1,4 +1,7 @@
 package Controller;
+
+import java.util.Scanner;
+
 /**
  * This class receives the data entered
  *  by the user and validates some conditions 
@@ -6,8 +9,16 @@ package Controller;
  */
 public class Register {
 	/**
-	 * @param namep:Will store the username
-	 * @param agep:Will store the age of user
+	 * @param name:Will store the username
+	 * @param age:Will store the age of user
+	 * @param numphon:Will store the number of user
+	 * @param country:Will store the country of user
+	 * @param resiadd:Will store the residence adress of user
+	 * @param email:Will store the email of user
+	 * @param password:Will store the password of user
+	 * @param exp:Will store the Experience of user 
+	 * @param pprf: Will store the Professional profile of user
+	 * @param inputs: Will recieve the data for console
 	 */
 	String name;
 	Integer age;
@@ -18,47 +29,34 @@ public class Register {
 	String password;
 	String exp;
 	String pprf;
-	/**
-	 * 
-	 * @param name:Contain the name of user
-	 * @param age:Contain the age of user
-	 */
-
-	public Register(String name,Integer age,Long numphon,String country,String resiadd,String email,String password,String exp,String pprf) {
-		// TODO Auto-generated constructor stub
-		this.name=name;
-		this.age=age;
-		this.numphon=numphon;
-		this.country=country;
-		this.resiadd=resiadd;
-		this.email=email;
-		this.password=password;
-		this.exp=exp;
-		this.pprf=pprf;
+	Scanner inputs=new Scanner(System.in);
+	
+	public Register() {
+		// TODO Auto-generated constructor stub	
 	}
 	/**
 	 * 
-	 * @param namep:Will store the username
-	 * 
-	 * "method:This method receives the name 
-	 * and if the length of this is less than 
-	 * 3 it deletes this information
+	 * @method:This method asks the user for the name, 
+	 * receives it and validates that it has a length 
+	 * greater than 3, otherwise it deletes it.
 	 */
-	public void getname(String name) {
+	public void getname() {
+		System.out.println("Enter your name");
+		name=inputs.nextLine();
 		if(name.length()<3) {
 			name=null;
 		}else {
 			System.out.println("EL nombre es:"+name);
 		}
-	/**
-	 * @param agep:Will store the age of user
-	 * 
-	 * @method:This method receives the user's age 
-	 * and if it is less than 18 or negative, 
-	 * deletes the information.
-	 */
 	}
-	public void getage(Integer age) {
+	/**
+	 * @method:This method asks the user's age and 
+	 * if it is negative or less than 18, it deletes 
+	 * the data.
+	 */
+	public void getage() {
+		System.out.println("Enter your age");
+		age=inputs.nextInt();
 		if(age<0||age<18) {
 			age=null;
 		}else {
@@ -67,12 +65,15 @@ public class Register {
 		
 	}
 	/**
-	 * @param numphon:Will store the number of phone of user
 	 * 
-	 * @method:This method receives the phone number 
-	 * and checks if it has the length of a phone number.
+	 * @method:This method asks for the user's phone 
+	 * number and if it has less than 10 digits, 
+	 * it deletes the data.
 	 */
-	public void getnumberofphone(Long numphon) {
+	public void getnumberofphone() {
+		System.out.println("Enter your number of phone");
+		numphon=inputs.nextLong();
+		inputs.nextLine();
 		String numStr=Long.toString(numphon);
 		if(numStr.length()!=10) {
 			numphon=null;
@@ -80,35 +81,69 @@ public class Register {
 			System.out.println("El numero de telefono es:"+numphon);
 		}	
 	}
-	public void getcountry(String country) {
+	/**
+	 * @method:This method asks the user's country
+	 */
+	public void getcountry() {
+		System.out.println("Enter your country");
+		country=inputs.nextLine();
 		if(country.length()<4) {
 			country=null;
 		}else {
 			System.out.println("El pais es:"+country);
-		}
-		
-		
+		}	
 	}
-	public void getresaddr(String resiadd) {
+	/*
+	 * @method:This method asks for the user's residential address.
+	 */
+	public void getresaddr() {
+		System.out.println("Enter your residence adress");
+		resiadd=inputs.nextLine();
 		System.out.println("La direccion es:"+resiadd);
 	}
-	public void getemail(String email) {
+	/*
+	 * @method:This method asks the user for the email 
+	 * and if it does not contain the extensions of 
+	 * an email it will delete it.
+	 */
+	
+	public void getemail() {
+		System.out.println("Enter your email");
+		email=inputs.nextLine();
 		if(email.contains("@gmail.com")||email.contains("@hotmail.com")) {
 			System.out.println("El email es:"+email);
 		}else {
 			email=null;
 		}
 	}
-	private void getpassword(String password) {
+	/*
+	 * This method asks the user for the password and, 
+	 * once verified, if it does not have a minimum 
+	 * length of 6 characters, it deletes it.
+	 */
+	
+	public void getpassword() {
+		System.out.println("Enter your password");
+		password=inputs.nextLine();
 		if(password.length()<6) {
 			password=null;
 		}
 	}
-	public void getexp(String exp) {
+	/*
+	 * This method asks about work experience
+	 */
+	public void getexp() {
+		System.out.println("Enter your Work Experience");
+		exp=inputs.nextLine();
 		System.out.println("La experiencia de trabajo es:"+exp);
 	}
-	public void getpprf(String pprf) {
-		System.out.println("La experiencia de trabajo es:"+exp);
+	/*
+	 * This method asks the professional profile
+	 */
+	public void getpprf() {
+		System.out.println("Enter your Professional Profile");
+		pprf=inputs.nextLine();
+		System.out.println("La experiencia de trabajo es:"+pprf);
 	}
 	
 	
