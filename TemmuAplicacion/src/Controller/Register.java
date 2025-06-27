@@ -1,6 +1,8 @@
 package Controller;
 import java.util.Scanner;
 
+import View.RgCustomervw;
+
 /**
  * This class receives the data entered by the user and validates some
  * conditions to keep the data or delete it.
@@ -18,20 +20,20 @@ public class Register {
 	 * @param pprf:     Will store the Professional profile of user
 	 * @param inputs:   Will recieve the data for console
 	 */
-	String name;
-	Integer age;
-	Long numphon;
-	String country;
-	String resiadd;
-	String email;
-	String password;
-	String exp;
-	String pprf;
+	public String name;
+	public Integer age;
+	public Long numphon;
+	public String country;
+	public String resiadd;
+	public String email;
+	public String password;
+	public String exp;
 	Integer num=0;
 	Scanner inputs = new Scanner(System.in);
 
 	public Register() {
 		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -41,8 +43,8 @@ public class Register {
 	 * @return:the name of user
 	 */
 	public String getname() {
-		System.out.println("Enter your name");
-		name = inputs.nextLine();
+		RgCustomervw rg= new RgCustomervw();
+		name=rg.getfieldn();
 		if (name.length() < 3) {
 			name = null;
 		}
@@ -55,8 +57,12 @@ public class Register {
 	 * @return: the age of user
 	 */
 	public Integer getage() {
-		System.out.println("Enter your age");
-		age = inputs.nextInt();
+		RgCustomervw rg= new RgCustomervw();
+		try {
+			age=Integer.parseInt(rg.getfieldag());
+		}catch(Exception e) {
+			System.out.println("Error");
+		}
 		if (age < 0 || age < 18) {
 			age = null;
 		}
@@ -71,9 +77,12 @@ public class Register {
 	 * @return: the number of phone of user
 	 */
 	public Long getnumberofphone() {
-		System.out.println("Enter your number of phone");
-		numphon = inputs.nextLong();
-		inputs.nextLine();
+		RgCustomervw rg= new RgCustomervw();
+		try {
+			numphon=Long.parseLong(rg.getfieldag());
+		}catch(Exception e) {
+			System.out.println("Error");
+		}
 		String numStr = Long.toString(numphon);
 		if (numStr.length() != 10) {
 			numphon = null;
@@ -87,8 +96,6 @@ public class Register {
 	 * @return: the country of user
 	 */
 	public String getcountry() {
-		System.out.println("Enter your country");
-		country = inputs.nextLine();
 		if (country.length() < 4) {
 			country = null;
 		}
@@ -102,8 +109,8 @@ public class Register {
 	 * @return: the residence adrees of user
 	 */
 	public String getresaddr() {
-		System.out.println("Enter your residence adress");
-		resiadd = inputs.nextLine();
+		RgCustomervw rg= new RgCustomervw();
+		resiadd=rg.getfieldaddr();
 		return resiadd;
 	}
 
@@ -116,10 +123,9 @@ public class Register {
 	 */
 
 	public String getemail() {
-		System.out.println("Enter your email");
-		email = inputs.nextLine();
+		RgCustomervw rg= new RgCustomervw();
+		email=rg.getfieldem();
 		if (email.contains("@gmail.com") || email.contains("@hotmail.com")) {
-			return email;
 		} else {
 			email = null;
 		}
@@ -134,8 +140,8 @@ public class Register {
 	 */
 
 	public String getpassword() {
-		System.out.println("Enter your password");
-		password = inputs.nextLine();
+		RgCustomervw rg= new RgCustomervw();
+		password=rg.getfieldpass();
 		if (password.length() < 6) {
 			password = null;
 		}
@@ -148,42 +154,15 @@ public class Register {
 	 * 
 	 */
 	public String getexp() {
-		System.out.println("Enter your Work Experience");
-		exp = inputs.nextLine();
 		return exp;
 	}
+	public void createprof() {
+		Profile prof=new Profile(getname(),getage(),getnumberofphone(),getcountry(),getresaddr(),getemail(),getpassword(),null);
+	}
+	
 
 	/**
 	 * @method:This method asks the professional profile
 	 * @return: the professFional profile of user
 	 */
-	public String getpprf() {
-		System.out.println("Enter your Professional Profile");
-		pprf = inputs.nextLine();
-		return pprf;
-	}
-	public Integer SelectRol() {
-		
-		System.out.println("Eliga 1 si quiere registrarse como comprador\n");
-		System.out.println("Eliga 2 si quiere registrarse como vendedor");
-		num=inputs.nextInt();
-		if(num==1) {
-			System.out.println("Registro como comprador");
-			inputs.nextLine();
-			return num;
-		}else if(num==2) {
-			System.out.println("Registro como vendedor");
-			inputs.nextLine();
-		return num;
-		}else {
-			while(num!=1||num!=2) {
-				System.out.println("Eliga el numero 1 o 2 solamente");
-				num=inputs.nextInt();
-			}
-			return num;
-		}
-		
-		
-		
-	}
 }

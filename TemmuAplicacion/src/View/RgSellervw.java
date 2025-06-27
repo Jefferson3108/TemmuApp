@@ -1,120 +1,156 @@
 package View;
 
 import javax.swing.*;
+
+import Controller.Profile;
+import Controller.Register;
+import Controller.Seller;
+import Model.data;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * This class represents the registration form for a Seller in the Temmu app.
+ * It collects personal information, contact details, and work experience from the user.
+ */
 public class RgSellervw extends JFrame {
 
-    // Componentes
-    private JTextField fieldName, fieldEmail, fieldPhone, fieldPassword, fieldAddress;
-    private JTextArea textExperience;
-    private JComboBox<String> comboCountry;
-    private JButton btnNext, btnBack;
+    // Form Fields
+    private final JTextField fieldName = new JTextField();
+    private final JTextField fieldEmail = new JTextField();
+    private final JTextField fieldPhone = new JTextField();
+    private final JTextField fieldAddress = new JTextField();
+    private final JTextField fieldAge = new JTextField();
+    private final JTextField fieldPassword = new JTextField();
 
+    // Dropdown for country selection
+    private final JComboBox<String> comboCountry = new JComboBox<>(new String[]{
+            "Colombia", "Mexico", "Argentina", "Brasil"
+    });
+
+    // Text area for work experience
+    private final JTextArea textWorkExp = new JTextArea();
+
+    // Buttons
+    private final JButton buttonBack = new JButton("Back");
+    private final JButton buttonNext = new JButton("Next");
+
+    /**
+     * Constructor that initializes the Seller Registration form.
+     */
     public RgSellervw() {
-        setTitle("Seller Profile - TEMMU");
+        setTitle("Seller Profile");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(600, 650);
-        setLocationRelativeTo(null);
+        setSize(500, 700);
+        setLocationRelativeTo(null); // Center the window
+        setLayout(new BorderLayout());
 
-        // Panel principal
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
-        add(mainPanel);
+        // Main panel setup
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.setLayout(new GridBagLayout());
 
-        // Logo y título
-        JLabel logo = new JLabel("TEMMU", loadIcon(), JLabel.LEFT);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5); // Padding between components
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        // Logo and App Name
+        JLabel logo = new JLabel(
+                "TEMMU",
+                new ImageIcon(getClass().getResource("/images/temu_80x80.png")),
+                JLabel.LEFT
+        );
         logo.setFont(new Font("Tahoma", Font.BOLD, 24));
-        logo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel title = new JLabel("Seller Profile");
-        title.setFont(new Font("Tahoma", Font.BOLD, 22));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(logo, gbc);
 
-        mainPanel.add(logo);
-        mainPanel.add(title);
-        mainPanel.add(Box.createVerticalStrut(20));
+        // Title Label
+        gbc.gridy++;
+        JLabel title = new JLabel("Seller Profile", JLabel.CENTER);
+        title.setFont(new Font("Tahoma", Font.BOLD, 24));
+        gbc.gridwidth = 2;
+        panel.add(title, gbc);
+        gbc.gridwidth = 1;
 
-        // Campos del formulario
-        fieldName = new JTextField(20);
-        fieldEmail = new JTextField(20);
-        fieldPhone = new JTextField(20);
-        fieldPassword = new JTextField(20);
-        fieldAddress = new JTextField(20);
+        // Input Fields
+        addField(panel, gbc, "Full Name", fieldName);
+        addField(panel, gbc, "Phone Number", fieldPhone);
+        addField(panel, gbc, "Age", fieldAge);
+        addField(panel, gbc, "Country", comboCountry);
+        addField(panel, gbc, "Email Address", fieldEmail);
+        addField(panel, gbc, "Resident Address", fieldAddress);
+        addField(panel, gbc, "Password", fieldPassword);
 
-        comboCountry = new JComboBox<>(new String[]{"Colombia", "Mexico", "Argentina", "Brasil"});
+        // Work Experience Text Area
+        gbc.gridx = 0;
+        gbc.gridy++;
+        panel.add(new JLabel("Work Experience"), gbc);
 
-        textExperience = new JTextArea(5, 20);
-        textExperience.setLineWrap(true);
-        textExperience.setWrapStyleWord(true);
-        JScrollPane scrollArea = new JScrollPane(textExperience);
+        gbc.gridx = 1;
+        textWorkExp.setRows(5);
+        textWorkExp.setLineWrap(true);
+        textWorkExp.setWrapStyleWord(true);
+        panel.add(new JScrollPane(textWorkExp), gbc);
 
-        // Añadir campos
-        mainPanel.add(createLabeledField("Full Name", fieldName));
-        mainPanel.add(createLabeledField("Email Address", fieldEmail));
-        mainPanel.add(createLabeledField("Phone Number", fieldPhone));
-        mainPanel.add(createLabeledField("Password", fieldPassword));
-        mainPanel.add(createLabeledField("Resident Address", fieldAddress));
-        mainPanel.add(createLabeledField("Country", comboCountry));
-        mainPanel.add(createLabeledField("Work Experience", scrollArea));
+        // Buttons (Back and Next)
+        gbc.gridx = 0;
+        gbc.gridy++;
+        panel.add(buttonBack, gbc);
 
-        // Panel de botones
-        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 10));
-        btnBack = new JButton("Back");
-        btnNext = new JButton("Next");
+        gbc.gridx = 1;
+        panel.add(buttonNext, gbc);
 
-        btnBack.addActionListener(this::onBack);
-        btnNext.addActionListener(this::onNext);
+        // Button Listeners
+        buttonBack.addActionListener(this::onBack);
+        buttonNext.addActionListener(this::onNext);
 
-        btnPanel.add(btnBack);
-        btnPanel.add(btnNext);
-
-        mainPanel.add(Box.createVerticalStrut(15));
-        mainPanel.add(btnPanel);
+        // Add panel to the frame
+        add(panel, BorderLayout.CENTER);
     }
 
-    private JPanel createLabeledField(String labelText, JComponent field) {
-        JPanel panel = new JPanel(new BorderLayout(5, 5));
-        JLabel label = new JLabel(labelText);
-        label.setFont(new Font("Tahoma", Font.BOLD, 12));
-        panel.add(label, BorderLayout.NORTH);
-        panel.add(field, BorderLayout.CENTER);
-        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
-        return panel;
+    /**
+     * Utility method to add a label and its corresponding input component to the panel.
+     *
+     * @param panel The panel where the components are added.
+     * @param gbc   GridBagConstraints for layout control.
+     * @param label The label text.
+     * @param field The input component (JTextField, JComboBox, etc.).
+     */
+    private void addField(JPanel panel, GridBagConstraints gbc, String label, Component field) {
+        gbc.gridx = 0;
+        gbc.gridy++;
+        panel.add(new JLabel(label), gbc);
+
+        gbc.gridx = 1;
+        panel.add(field, gbc);
     }
 
+    /**
+     * Action when the "Back" button is clicked.
+     * Returns the user to the role selection screen.
+     *
+     * @param e The action event triggered.
+     */
     private void onBack(ActionEvent e) {
-        // Simulación del botón Back
-        JOptionPane.showMessageDialog(this, "Going back...");
-        dispose();
-        new Selectvw().setVisible(true);
-        // new Selectvw().setVisible(true);  // Descomenta si tienes la clase Selectvw
+        new Selectvw().setVisible(true); // Open selection screen
+        dispose(); // Close current window
     }
 
+    /**
+     * Action when the "Next" button is clicked.
+     * This is where the data submission logic should be implemented.
+     * Currently, it shows a confirmation message.
+     *
+     * @param e The action event triggered.
+     */
     private void onNext(ActionEvent e) {
-        // Validación simple
-        if (fieldName.getText().trim().isEmpty() ||
-            fieldEmail.getText().trim().isEmpty() ||
-            fieldPhone.getText().trim().isEmpty() ||
-            fieldPassword.getText().trim().isEmpty()) {
-
-            JOptionPane.showMessageDialog(this, "Please fill in all required fields.",
-                    "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Registration Successful!");
-            // Aquí puedes agregar la lógica para ir a la siguiente pantalla
-        }
+        // Data submission logic should be implemented here (e.g., validation, saving data).
+        JOptionPane.showMessageDialog(this, "Information submitted successfully.");
     }
 
-    private ImageIcon loadIcon() {
-        try {
-            return new ImageIcon(getClass().getResource("/images/temu_80x80.png"));
-        } catch (Exception e) {
-            System.out.println("Image not found.");
-            return null;
-        }
-    }
+}
 
    
-}
+
