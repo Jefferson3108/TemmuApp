@@ -1,25 +1,29 @@
 package View;
 
 import javax.swing.*;
+
+import Controller.Register;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
 
 /**
- * This class represents the registration form for a Customer in the Temmu app.
- * It allows users to input their personal and contact information to create an account.
+ * This class represents the registration window for a Customer in the Temmu application.
+ * It allows the user to input personal and contact information to create a profile.
  */
 public class RgCustomervw extends JFrame {
 
-    // Logger for potential debugging
+    // Logger for debugging if needed
     private static final Logger logger = Logger.getLogger(RgCustomervw.class.getName());
 
-    // Form fields
+    // Form components
     private JTextField fieldName, fieldEmail, fieldPhone, fieldAddress, fieldPassword, fieldAge;
     private JComboBox<String> countryCombo;
+    private JPanel panel; // Main panel to hold all components
 
     /**
-     * Constructor initializes the customer registration window.
+     * Constructor that initializes the customer registration window.
      */
     public RgCustomervw() {
         showComponents();
@@ -32,12 +36,12 @@ public class RgCustomervw extends JFrame {
         setTitle("Customer Profile");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(500, 600);
-        setLocationRelativeTo(null); // Center window
+        setLocationRelativeTo(null); // Center the window
 
-        // Main panel setup
-        JPanel panel = new JPanel();
+        // Initialize main panel
+        panel = new JPanel();
         panel.setBackground(Color.WHITE);
-        panel.setLayout(null); // Absolute layout
+        panel.setLayout(null); // Using absolute layout
 
         // Logo with text
         JLabel temuLogo = new JLabel(
@@ -66,7 +70,7 @@ public class RgCustomervw extends JFrame {
         fieldEmail = addTextField(panel, 30, 220);
 
         addLabel(panel, "Country", 260, 200);
-        countryCombo = new JComboBox<>(new String[]{"Colombia", "Mexico", "Argentina", "Brasil"});
+        countryCombo = new JComboBox<>(new String[]{"Colombia", "Mexico", "Argentina", "Brazil"});
         countryCombo.setBounds(260, 220, 190, 34);
         panel.add(countryCombo);
 
@@ -92,37 +96,65 @@ public class RgCustomervw extends JFrame {
         nextButton.addActionListener(this::onNext);
         panel.add(nextButton);
 
-        // Final setup
+        // Add panel to frame
         add(panel);
         setVisible(true);
     }
 
     // ================= Getter methods for input fields ==================
 
+    /**
+     * Gets the full name from the input field.
+     * @return Full name as String
+     */
     public String getFieldName() {
         return fieldName.getText();
     }
 
+    /**
+     * Gets the age from the input field.
+     * @return Age as String
+     */
     public String getFieldAge() {
         return fieldAge.getText();
     }
 
+    /**
+     * Gets the phone number from the input field.
+     * @return Phone number as String
+     */
     public String getFieldPhone() {
         return fieldPhone.getText();
     }
 
+    /**
+     * Gets the email address from the input field.
+     * @return Email as String
+     */
     public String getFieldEmail() {
         return fieldEmail.getText();
     }
 
+    /**
+     * Gets the residential address from the input field.
+     * @return Address as String
+     */
     public String getFieldAddress() {
         return fieldAddress.getText();
     }
 
+    /**
+     * Gets the password from the input field.
+     * @return Password as String
+     */
     public String getFieldPassword() {
         return fieldPassword.getText();
     }
 
+    /**
+     * Gets the selected country from the combo box.
+     * @return Country as String
+     */
     public String getSelectedCountry() {
         return (String) countryCombo.getSelectedItem();
     }
@@ -130,8 +162,9 @@ public class RgCustomervw extends JFrame {
     // ================= Button Actions ==================
 
     /**
-     * Action for the "Back" button.
-     * Returns the user to the role selection screen.
+     * Action handler for the "Back" button.
+     * Navigates the user back to the role selection window.
+     * @param evt The action event triggered by the button.
      */
     private void onBack(ActionEvent evt) {
         new Selectvw().setVisible(true);
@@ -139,23 +172,44 @@ public class RgCustomervw extends JFrame {
     }
 
     /**
-     * Action for the "Next" button.
-     * Here you can implement validation and saving data.
+     * Action handler for the "Next" button.
+     * Attempts to create a user profile and displays a confirmation or error message.
+     * @param evt The action event triggered by the button.
      */
     public void onNext(ActionEvent evt) {
-        // TODO: Implement form validation and saving logic
-        JOptionPane.showMessageDialog(this, "Information submitted successfully.");
+        // Create a Register object with the data from input fields
+        Register rg = new Register(
+            getFieldName(),
+            getFieldAge(),
+            getFieldPhone(),
+            getSelectedCountry(),
+            getFieldAddress(),
+            getFieldEmail(),
+            getFieldPassword(),
+            null
+        );
+
+        // If profile creation is successful
+        if (rg.createprof()==true) {
+            JLabel fieldVerification = new JLabel();
+            fieldVerification.setBounds(10, 20, 100, 30);
+            panel.add(fieldVerification);
+
+            JOptionPane.showMessageDialog(this, "Information submitted successfully.");
+        } else {
+            // Display error message if profile creation fails
+            JOptionPane.showMessageDialog(this, "Error, please enter valid data again.");
+        }
     }
 
     // ================= Utility Methods ==================
 
     /**
-     * Adds a label to the panel at specified position.
-     *
+     * Adds a label to the panel at the specified position.
      * @param panel The panel where the label is added.
-     * @param text  The text of the label.
-     * @param x     The x-coordinate.
-     * @param y     The y-coordinate.
+     * @param text The text to display on the label.
+     * @param x The x-coordinate of the label.
+     * @param y The y-coordinate of the label.
      */
     private void addLabel(JPanel panel, String text, int x, int y) {
         JLabel label = new JLabel(text);
@@ -165,11 +219,10 @@ public class RgCustomervw extends JFrame {
     }
 
     /**
-     * Creates a text field and adds it to the panel at specified position.
-     *
+     * Creates a text field and adds it to the panel at the specified position.
      * @param panel The panel where the text field is added.
-     * @param x     The x-coordinate.
-     * @param y     The y-coordinate.
+     * @param x The x-coordinate of the text field.
+     * @param y The y-coordinate of the text field.
      * @return The created JTextField.
      */
     private JTextField addTextField(JPanel panel, int x, int y) {
@@ -181,6 +234,7 @@ public class RgCustomervw extends JFrame {
 }
     
     
-}
+
+
 
   

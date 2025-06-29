@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import Controller.Register;
 import Model.data;
 import View.RgSellervw;
 import View.Selectvw;
@@ -17,7 +18,6 @@ public class Main {
 	 public static void main(String[] args) {
 	        SwingUtilities.invokeLater(() -> {
 	            new Selectvw().setVisible(true);
-	           
 	        });
 	     
   
