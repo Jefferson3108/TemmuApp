@@ -3,6 +3,7 @@ package View;
 import javax.swing.*;
 
 import Controller.Register;
+import Model.data;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -194,8 +195,9 @@ public class RgCustomervw extends JFrame {
             JLabel fieldVerification = new JLabel();
             fieldVerification.setBounds(10, 20, 100, 30);
             panel.add(fieldVerification);
-
             JOptionPane.showMessageDialog(this, "Information submitted successfully.");
+            SwingUtilities.invokeLater(() -> new Loginvw().setVisible(true));
+            dispose();
         } else {
             // Display error message if profile creation fails
             JOptionPane.showMessageDialog(this, "Error, please enter valid data again.");

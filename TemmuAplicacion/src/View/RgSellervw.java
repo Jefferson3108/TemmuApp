@@ -1,11 +1,10 @@
 package View;
 
 import javax.swing.*;
-
 import Controller.Register;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
+
 
 /**
  * This class represents the registration form for a Seller in the Temmu app.
@@ -232,8 +231,11 @@ public class RgSellervw extends JFrame {
             JLabel fieldVerification = new JLabel();
             fieldVerification.setBounds(10, 20, 100, 30);
             panel.add(fieldVerification);
-
             JOptionPane.showMessageDialog(this, "Information submitted successfully.");
+            SwingUtilities.invokeLater(() -> new Loginvw().setVisible(true));
+            dispose();
+            
+            
         } else {
             JOptionPane.showMessageDialog(this, "Error, please enter valid data again.");
         }

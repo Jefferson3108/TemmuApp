@@ -1,5 +1,7 @@
 package Controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import View.RgCustomervw;
@@ -229,9 +231,10 @@ public class Register {
      *
      * @return true if profile creation is successful, otherwise false
      */
+    
     public Boolean createprof() {
         if (setname() && setage() && setnumberofphone() && setcountry() && setresadd() && setemail() && setpassword() && setexp() != null) {
-            Profile prof = new Profile(this.name, String.valueOf(this.age), String.valueOf(this.age), this.country, this.resiadd, this.email, this.password, this.exp);
+            Profile prof = new Profile(this.name, String.valueOf(this.age), String.valueOf(this.numphon), this.country, this.resiadd, this.email, this.password, this.exp);
             if (prof.validateprofile() == true) {
                 return true;
             } else {
@@ -241,5 +244,6 @@ public class Register {
             return false;
         }
     }
+   
 
 }

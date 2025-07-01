@@ -1,12 +1,4 @@
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
-import Controller.Register;
-import Model.data;
-import View.RgSellervw;
 import View.Selectvw;
 
 public class Main {

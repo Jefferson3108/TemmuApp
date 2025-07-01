@@ -1,5 +1,8 @@
 package Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Model.data;
 
 /**
@@ -7,7 +10,9 @@ import Model.data;
  * It checks if each attribute has valid data and determines if the profile is acceptable.
  */
 public class Profile extends Register {
-
+	private static  List<Seller> Sellers= new ArrayList<Seller>();
+	private static   List<Customer> Customers= new ArrayList<>();
+	data d= new data();
     /**
      * Constructor for the Profile class.
      * Initializes the attributes by parsing and assigning the data received from the form.
@@ -20,6 +25,7 @@ public class Profile extends Register {
      * @param email    Will store the email of the user
      * @param password Will store the password of the user
      * @param exp      Will store the work experience of the user
+     * 
      */
     public Profile(String name, String age, String numphon, String country, String resiadd, String email, String password, String exp) {
         super(name, age, numphon, country, resiadd, email, password, exp);
@@ -136,23 +142,37 @@ public class Profile extends Register {
             return true;
         }
     }
+    public static List<Seller> getlistsll(){
+    	return Sellers;
+    }
+    
+    public static List<Customer> getlistcs(){
+    	return Customers;
+    }
 
     /**
      * Validates the entire profile by checking if all required fields are valid.
      * 
      * @return true if the profile passes validation, false otherwise
      */
+    
     public Boolean validateprofile() {
         if (assignname() && assignage() && assignnumphon() && assigncountry() && assignresaddr() && assignemail()
-                && assignpassword() == true) {
+                && assignpassword()&& assignexp() == true) {
+        	Sellers.add(new Seller(this.name, String.valueOf(this.age), String.valueOf(this.numphon), this.country, this.resiadd, this.email, this.password, this.exp));
+        	d.saveDataSeller(Sellers);
             return true;
         } else if (assignname() && assignage() && assignnumphon() && assigncountry() && assignresaddr() && assignemail()
-                && assignpassword() && assignexp() == true) {
+                && assignpassword()  == true) {
+        	Customers.add(new Customer(this.name, String.valueOf(this.age), String.valueOf(this.numphon), this.country, this.resiadd, this.email, this.password));
+        	d.saveDataCustomer(Customers);
             return true;
         } else {
             return false;
         }
     }
+    
+    
 
 }
 
