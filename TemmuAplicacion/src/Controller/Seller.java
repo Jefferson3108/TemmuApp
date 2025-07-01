@@ -1,6 +1,7 @@
+
 package Controller;
 public class Seller extends Register {
-
+	
 	public Seller(String name,String age, String numphon, String country, String resiadd, String email,String password,String exp) {
 		// TODO Auto-generated constructor stub
 		super(name, age, numphon, country, resiadd, email, password, exp);
@@ -11,13 +12,8 @@ public class Seller extends Register {
 		this.resiadd=resiadd;
 		this.email=email;
 		this.password=password;
-		this.exp=exp;
+
 	}
-
-
-	
-
-	
-	
-
 }
+	
+
