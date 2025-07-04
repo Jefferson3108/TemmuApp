@@ -42,22 +42,14 @@ public class Register {
      * @param exp      User's work experience
      */
     public Register(String name, String age, String numphon, String country, String resiadd, String email, String password, String exp) {
-        getname(name);
-        getage(age);
-        getnumberofphone(numphon);
-        getcountry(country);
-        getresaddr(resiadd);
-        getemail(email);
-        getpassword(password);
-        getexp(exp);
-        setname();
-        setage();
-        setnumberofphone();
-        setcountry();
-        setresadd();
-        setemail();
-        setpassword();
-        setexp();
+        setname(name);
+        setage(age);
+        setnumberofphone(numphon);
+        setcountry(country);
+        setresaddr(resiadd);
+        setemail(email);
+        setpassword(password);
+        setexp(exp);
     }
 
     /**
@@ -66,7 +58,7 @@ public class Register {
      *
      * @param name User's name input
      */
-    private void getname(String name) {
+    private void setname(String name) {
         try {
             this.name = name;
             if (this.name.length() < 3) {
@@ -83,7 +75,7 @@ public class Register {
      *
      * @param age User's age input as string
      */
-    private void getage(String age) {
+    private void setage(String age) {
         try {
             this.age = Integer.parseInt(age);
             if (this.age < 18 || this.age < 0) {
@@ -100,7 +92,7 @@ public class Register {
      *
      * @param numphon Phone number as string
      */
-    private void getnumberofphone(String numphon) {
+    private void setnumberofphone(String numphon) {
         try {
             this.numphon = Long.parseLong(numphon);
             String numStr = Long.toString(this.numphon);
@@ -117,7 +109,7 @@ public class Register {
      *
      * @param country User's country
      */
-    private void getcountry(String country) {
+    private void setcountry(String country) {
         try {
             this.country = country;
         } catch (Exception e) {
@@ -130,7 +122,7 @@ public class Register {
      *
      * @param resiadd User's residence address
      */
-    private void getresaddr(String resiadd) {
+    private void setresaddr(String resiadd) {
         try {
             this.resiadd = resiadd;
         } catch (Exception e) {
@@ -144,7 +136,7 @@ public class Register {
      *
      * @param email User's email input
      */
-    private void getemail(String email) {
+    private void setemail(String email) {
         try {
             this.email = email;
             if (this.email.contains("@gmail.com") || this.email.contains("@hotmail.com")) {
@@ -163,7 +155,7 @@ public class Register {
      *
      * @param password User's password input
      */
-    private void getpassword(String password) {
+    private void setpassword(String password) {
         try {
             this.password = password;
             if (this.password.length() < 6) {
@@ -179,7 +171,7 @@ public class Register {
      *
      * @param exp User's work experience
      */
-    private void getexp(String exp) {
+    private void setexp(String exp) {
         try {
             this.exp = exp;
         } catch (Exception e) {
@@ -189,35 +181,35 @@ public class Register {
 
     // ================== Setter Methods to Validate ==================
 
-    private Boolean setname() {
+    private Boolean getname() {
         return this.name != null;
     }
 
-    private Boolean setage() {
+    private Boolean getage() {
         return String.valueOf(this.age) != null;
     }
 
-    private Boolean setnumberofphone() {
+    private Boolean getnumberofphone() {
         return String.valueOf(this.numphon) != null;
     }
 
-    private Boolean setcountry() {
+    private Boolean getcountry() {
         return this.country != null;
     }
 
-    private Boolean setresadd() {
+    private Boolean getresadd() {
         return this.resiadd != null;
     }
 
-    private Boolean setemail() {
+    private Boolean getemail() {
         return this.email != null;
     }
 
-    private Boolean setpassword() {
+    private Boolean getpassword() {
         return this.password != null;
     }
 
-    public Boolean setexp() {
+    public Boolean getexp() {
         return this.exp != null;
     }
 
@@ -229,7 +221,7 @@ public class Register {
      */
     
     public Boolean createprof() {
-        if (setname() && setage() && setnumberofphone() && setcountry() && setresadd() && setemail() && setpassword() && setexp() != null) {
+        if (getname() && getage() && getnumberofphone() && getcountry() && getresadd() && getemail() && getpassword() && getexp() != null) {
             Profile prof = new Profile(this.name, String.valueOf(this.age), String.valueOf(this.numphon), this.country, this.resiadd, this.email, this.password, this.exp);
             if (prof.validateprofile() == true) {
                 return true;

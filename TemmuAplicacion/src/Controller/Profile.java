@@ -32,8 +32,17 @@ public class Profile extends Register {
     public Profile(String name, String age, String numphon, String country, String resiadd, String email, String password, String exp) {
         super(name, age, numphon, country, resiadd, email, password, exp);
         this.name = name;
-        this.age = Integer.parseInt(age);
-        this.numphon = Long.parseLong(numphon);
+        try {
+        	this.age = Integer.parseInt(age);
+        }catch(Exception e) {
+        	this.age=null;
+        }
+        
+        try {
+        	this.numphon = Long.parseLong(numphon);
+        }catch(Exception e) {
+        	this.numphon=null;
+        }
         this.country = country;
         this.resiadd = resiadd;
         this.email = email;
@@ -51,7 +60,7 @@ public class Profile extends Register {
      * 
      * @return true if the name is valid, false otherwise
      */
-    public Boolean assignname() {
+    public Boolean ValidateAssignname() {
         if (name == null) {
             return false;
         } else {
@@ -64,7 +73,7 @@ public class Profile extends Register {
      * 
      * @return true if the age is valid, false otherwise
      */
-    public Boolean assignage() {
+    public Boolean ValidateAssignage() {
         if (age == null) {
             return false;
         } else {
@@ -77,7 +86,7 @@ public class Profile extends Register {
      * 
      * @return true if the phone number is valid, false otherwise
      */
-    public Boolean assignnumphon() {
+    public Boolean ValidateAssignnumphon() {
         if (numphon == null) {
             return false;
         } else {
@@ -90,7 +99,7 @@ public class Profile extends Register {
      * 
      * @return true if the country is valid, false otherwise
      */
-    public Boolean assigncountry() {
+    public Boolean ValidateAssigncountry() {
         if (country == null) {
             return false;
         } else {
@@ -103,7 +112,7 @@ public class Profile extends Register {
      * 
      * @return true if the residence address is valid, false otherwise
      */
-    public Boolean assignresaddr() {
+    public Boolean ValidateAssignresaddr() {
         if (resiadd == null) {
             return false;
         } else {
@@ -116,7 +125,7 @@ public class Profile extends Register {
      * 
      * @return true if the email is valid, false otherwise
      */
-    public Boolean assignemail() {
+    public Boolean ValidateAssignemail() {
         if (email == null) {
             return false;
         } else {
@@ -129,7 +138,7 @@ public class Profile extends Register {
      * 
      * @return true if the password is valid, false otherwise
      */
-    public Boolean assignpassword() {
+    public Boolean ValidateAssignpassword() {
         if (password == null) {
             return false;
         } else {
@@ -142,7 +151,7 @@ public class Profile extends Register {
      * 
      * @return true if the experience is valid, false otherwise
      */
-    public Boolean assignexp() {
+    public Boolean ValidateAssignexp() {
         if (exp == null) {
             return false;
         } else {
@@ -164,13 +173,13 @@ public class Profile extends Register {
      */
     
     public Boolean validateprofile() {
-        if (assignname() && assignage() && assignnumphon() && assigncountry() && assignresaddr() && assignemail()
-                && assignpassword()&& assignexp() == true) {
+        if (ValidateAssignname() && ValidateAssignage() && ValidateAssignnumphon() && ValidateAssigncountry() && ValidateAssignresaddr() && ValidateAssignemail()
+                && ValidateAssignpassword()&& ValidateAssignexp() == true) {
         	Sellers.add(new Seller(this.name, String.valueOf(this.age), String.valueOf(this.numphon), this.country, this.resiadd, this.email, this.password, this.exp));
         	d.saveDataSeller(Sellers);
             return true;
-        } else if (assignname() && assignage() && assignnumphon() && assigncountry() && assignresaddr() && assignemail()
-                && assignpassword()  == true) {
+        } else if (ValidateAssignname() && ValidateAssignage() && ValidateAssignnumphon() && ValidateAssigncountry() && ValidateAssignresaddr() && ValidateAssignemail()
+                && ValidateAssignpassword()  == true) {
         	Customers.add(new Customer(this.name, String.valueOf(this.age), String.valueOf(this.numphon), this.country, this.resiadd, this.email, this.password));
         	d.saveDataCustomer(Customers);
             return true;
