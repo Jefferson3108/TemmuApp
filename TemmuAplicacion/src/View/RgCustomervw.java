@@ -3,8 +3,6 @@ package View;
 import javax.swing.*;
 
 import Controller.Register;
-import Model.data;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;

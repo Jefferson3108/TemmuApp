@@ -3,7 +3,6 @@ package Controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import Model.data;
 
 /**
@@ -12,8 +11,10 @@ import Model.data;
  */
 public class Profile extends Register {
 	private static  List<Seller> Sellers= new ArrayList<Seller>();
-	private static   List<Customer> Customers= new ArrayList<>();
+	private static   List<Customer> Customers= new ArrayList<Customer>();
 	data d= new data();
+	String validateEmail;
+	String validatePassword;
     /**
      * Constructor for the Profile class.
      * Initializes the attributes by parsing and assigning the data received from the form.
@@ -38,6 +39,11 @@ public class Profile extends Register {
         this.email = email;
         this.password = password;
         this.exp = exp;
+    }
+    public Profile(String email, char[] password) {
+    	super(null, null, null, null, null, email, String.valueOf(password), null);
+    	this.validateEmail=email;
+    	this.validatePassword=String.valueOf(password);
     }
 
     /**
@@ -172,6 +178,65 @@ public class Profile extends Register {
             return false;
         }
     }
+    public String setemail() {
+    	return this.validateEmail;
+    }
+    public String setpassword(){
+    	return this.validatePassword;
+    }
+    
+    public Boolean ValidateEmailSeller() {
+    	List<String> emails= d.readEmailSeller(Sellers);
+    	for(String email: emails ) {
+    		if(email.equals(setemail())){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    public Boolean ValidatePasswordSeller() {
+    	List<String> passwords= d.readPasswordSeller(Sellers);
+    	
+    	for(String password: passwords) {
+    		if(password.equals(setpassword())) {
+    			return true;
+    			
+    		}
+    	}
+    	return false;
+    }
+    public Boolean ValidateEmailCustomer() {
+    	List<String> emails= d.readEmailCustomer(Customers);
+    	for(String email: emails) {
+    		if(email.equals(setemail())) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    public Boolean ValidatePasswordCustomer() {
+    	List<String> passwords= d.readPasswordCustomer(Customers);
+    	for(String password: passwords) {
+    		if(password.equals(setpassword())) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    public Boolean ValidateLogin() {
+    	if(ValidateEmailSeller() && ValidatePasswordSeller()==true) {
+    		return true;
+    	}else if(ValidateEmailCustomer()&& ValidatePasswordCustomer()==true) {
+    		return true;
+    	}else {
+    		return false;
+    	}
+    }
+   
+   
+
+   
     
     
 

@@ -1,9 +1,12 @@
 
 package Model;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import Controller.Customer;
@@ -23,7 +26,7 @@ public class data  {
         // Empty constructor
     	    }
     /**
-     * Saves a list of sellers to a text file located at /images/dataapp.txt.
+     * Saves a list of sellers to a text file located at src/images/dataapp.txt.
      * Each seller's information is stored in a tab-separated format.
      *
      * @param sellers List of Seller objects to be saved.
@@ -52,6 +55,12 @@ public class data  {
             System.out.println("Error writing data: " + e.getMessage());
         }
     }
+    /**
+     * Saves a list of customers to a text file located at src/images/dataapp.txt.
+     * Each seller's information is stored in a tab-separated format.
+     *
+     * @param sellers List of Seller objects to be saved.
+     */
     
     public void saveDataCustomer(List<Customer> customers) {
         try {
@@ -77,7 +86,88 @@ public class data  {
             System.out.println("Error writing data: " + e.getMessage());
         }
     }
+    
+    public List<String> readEmailSeller(List<Seller> sellers) {
+    	List<String> emails= new ArrayList<>();
+    	readtxt1(sellers);
+    	for(Seller sl: sellers ) {
+    		emails.add(sl.email);
+    	}
+    	return emails;
+    }
+    public List<String> readPasswordSeller(List<Seller> sellers){
+    	List<String> passwords= new ArrayList<>();
+    	readtxt1(sellers);
+    	for(Seller sl: sellers) {
+    		passwords.add(sl.password);
+    	}
+    	return passwords;
+    }
+    public List<String> readEmailCustomer(List<Customer> customers ){
+    	List<String> emails= new ArrayList<>();
+    	readtxt2(customers);
+    	for(Customer cs: customers) {
+    		emails.add(cs.email);
+    	}
+    	return emails;
+    }
+    
+    public List<String> readPasswordCustomer(List<Customer> customers){
+    	List<String> passwords= new ArrayList<>();
+    	readtxt2(customers);
+    	for(Customer cs: customers) {
+    		passwords.add(cs.password);
+    	}
+    	return passwords;
+    }
+    public void readtxt1(List<Seller>getdataseller) {
+    	try {
+    		BufferedReader reader = new BufferedReader(new FileReader("src/images/dataapp.txt"));
+    		String line="";
+    		while((line=reader.readLine())!=null) {
+    			String[] block= line.split("\t");
+    			String name= block[0];
+    			String age= block[1];
+    			String numphon= block[2];
+    			String country= block[3];
+    			String resiadd= block[4];
+    			String email= block[5];
+    			String password= block[6];
+    			String exp= block[7];
+    			getdataseller.add(new Seller(name, age, numphon, country, resiadd, email, password, exp));
+    		}
+    		reader.close();
+    		
+    	}catch(IOException e) {
+    		System.out.println("Error writing data: " + e.getMessage());
+    		
+    	}
+    }
+    
+    public void readtxt2(List<Customer>getdatacustomer) {
+    	try {
+    		BufferedReader reader = new BufferedReader(new FileReader("src/images/dataapp2.txt"));
+    		String line="";
+    		while((line=reader.readLine())!=null) {
+    			String[] block= line.split("\t");
+    			String name= block[0];
+    			String age= block[1];
+    			String numphon= block[2];
+    			String country= block[3];
+    			String resiadd= block[4];
+    			String email= block[5];
+    			String password= block[6];
+    			getdatacustomer.add(new Customer(name, age, numphon, country, resiadd, email, password));
+    		}
+    		reader.close();
+    		
+    	}catch(IOException e) {
+    		System.out.println("Error writing data: " + e.getMessage());
+    		
+    	}
+    }
 }
+
 
 	
 

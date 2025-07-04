@@ -1,6 +1,9 @@
 package View;
 
 import javax.swing.*;
+
+import Controller.Profile;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
@@ -28,8 +31,7 @@ public class Loginvw extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
-        JLabel logo = new JLabel("TEMMU", new ImageIcon(getClass().getResource("/images/temu_80x80.png")), JLabel.CENTER);
-        logo.setFont(new Font("Tahoma", Font.BOLD, 24));
+        JLabel logo = new JLabel(new ImageIcon(getClass().getResource("/images/temu_80x80.png")), JLabel.CENTER);
         logo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel title = new JLabel("WELCOME TO TEMMU");
@@ -44,11 +46,15 @@ public class Loginvw extends JFrame {
         emailLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 
         emailField = new JTextField(20);
+        emailField.setMaximumSize(new Dimension(250, 30));
+        emailField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel passLabel = new JLabel("Password");
         passLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 
         passwordField = new JPasswordField(20);
+        passwordField.setMaximumSize(new Dimension(250, 30));
+        passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         loginButton = new JButton("LOGIN");
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -70,12 +76,23 @@ public class Loginvw extends JFrame {
 
         add(panel);
     }
-    private void onLogin(ActionEvent evt) {
-        // TODO: Agrega lógica de autenticación aquí
-        String email = emailField.getText();
-        String password = new String(passwordField.getPassword());
-        System.out.println("Login con: " + email + " / " + password);
+    public String getFieldEmail() {
+    	return emailField.getText();
     }
 
-  
+	public  char[] getFieldPassword() {
+    	return passwordField.getPassword();
+    }
+    
+
+    private void onLogin(ActionEvent evt) {
+        // TODO: Agrega lógica de autenticación aquí
+        Profile prof= new Profile(getFieldEmail(),getFieldPassword());
+        if(prof.ValidateLogin()==true) {
+        	
+        }else {
+        	JOptionPane.showMessageDialog(this, "Error, incorrect username and password.");
+        }
+      
+    }
 }

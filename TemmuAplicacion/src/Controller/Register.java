@@ -1,11 +1,7 @@
 
 package Controller;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-import View.RgCustomervw;
 
 /**
  * This class receives the data entered by the user and validates some
@@ -31,7 +27,6 @@ public class Register {
     public String email;
     public String password;
     public String exp;
-    Scanner inputs = new Scanner(System.in);
 
     /**
      * Constructor for Register class that receives string values for each field,
