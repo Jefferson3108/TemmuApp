@@ -89,7 +89,13 @@ public class Loginvw extends JFrame {
         // TODO: Agrega lógica de autenticación aquí
         Profile prof= new Profile(getFieldEmail(),getFieldPassword());
         if(prof.ValidateLogin()==true) {
-        	
+        	if(prof.ValidateEmailSeller() && prof.ValidatePasswordSeller()== true) {
+        		SwingUtilities.invokeLater(() -> new MainSellervw().setVisible(true));
+        		dispose();
+        		
+        	}else if(prof.ValidateEmailCustomer() && prof.ValidatePasswordCustomer()== true) {
+        		System.out.println("XD");
+        	}
         }else {
         	JOptionPane.showMessageDialog(this, "Error, incorrect username and password.");
         }
