@@ -1,108 +1,55 @@
 package View;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 import Controller.Product;
 import Controller.Seller;
 import Model.data;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.io.File;
 
-public class MainSellervw extends JFrame {
-	data d= new data();
-    private CardLayout cardLayout;
-    private JPanel productPanelContainer;
-    private Button ProductBtn;
-    private JPanel Panelpr;
+public class MainCustomervw extends JFrame {
+    private JPanel gridPanel;
     private JPanel mainPanel;
-
-
-
-    public MainSellervw() {
-        setTitle("My Products");
+    data d= new data();
+    public MainCustomervw() {
+        setTitle("Temmu Catalog");
         setSize(400, 700);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         initComponents();
         showProducts();
+       
     }
 
     private void initComponents() {
-        JLabel title = new JLabel("My Products", SwingConstants.CENTER);
-        title.setFont(new Font("Tahoma", Font.BOLD, 18));
-
-        JLabel subtitle = new JLabel("Within 5 miles • $$-$$$", SwingConstants.CENTER);
-        subtitle.setFont(new Font("Tahoma", Font.PLAIN, 12));
-
-        // Toggle buttons
-        JToggleButton saleButton = new JToggleButton("SALE");
-        JToggleButton soldButton = new JToggleButton("SOLD");
-
-        ButtonGroup toggleGroup = new ButtonGroup();
-        toggleGroup.add(saleButton);
-        toggleGroup.add(soldButton);
-        saleButton.setSelected(true);
-
-        JPanel togglePanel = new JPanel(new GridLayout(1, 2));
-        togglePanel.add(saleButton);
-        togglePanel.add(soldButton);
-
-
-        // Card layout container
-        cardLayout = new CardLayout();
-        productPanelContainer = new JPanel(cardLayout);
-
-        productPanelContainer.add(buildEmptyMessage("You haven't added any products for sale yet."), "SALE");
-        productPanelContainer.add(buildEmptyMessage("No products have been sold yet."), "SOLD");
-
-        // Toggle logic
-        saleButton.addActionListener(e -> cardLayout.show(productPanelContainer, "SALE"));
-        soldButton.addActionListener(e -> cardLayout.show(productPanelContainer, "SOLD"));
-
-        // Add Product Button
-        JButton addProductBtn = new JButton("ADD PRODUCT");
-        addProductBtn.setBackground(new Color(255, 153, 0));
-        addProductBtn.setForeground(Color.BLACK);
-        addProductBtn.addActionListener(this::onAddProduct);
-        
-
-        // Layout
-        JPanel topPanel = new JPanel();
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-        topPanel.add(title);
-        topPanel.add(subtitle);
-        topPanel.add(Box.createVerticalStrut(10));
-        topPanel.add(togglePanel);
-
          mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(topPanel, BorderLayout.NORTH);
-        mainPanel.add(productPanelContainer, BorderLayout.CENTER);
-        mainPanel.add(addProductBtn, BorderLayout.SOUTH);
 
-        add(mainPanel);
+        // Header de filtros
+        JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        String[] filters = {"All", "Exclusive offer", "Women", "Man", "Home"};
+        for (String filter : filters) {
+            JButton btn = new JButton(filter);
+            filterPanel.add(btn);
+        }
         
+        
+
+        mainPanel.add(filterPanel, BorderLayout.NORTH);
+
+        // Grid de productos
+        gridPanel = new JPanel(new GridLayout(0, 3, 10, 10)); // 3 columnas
+        gridPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        gridPanel.setBackground(Color.WHITE);
         
        
-        
-    }
 
-    private JPanel buildEmptyMessage(String message) {
-        JPanel panel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel(message, SwingConstants.CENTER);
-        label.setFont(new Font("Tahoma", Font.ITALIC, 14));
-        label.setForeground(Color.GRAY);
-        panel.add(label, BorderLayout.CENTER);
-        return panel;
-    }
-
-    private void onAddProduct(ActionEvent e) {
-        JOptionPane.showMessageDialog(this, "Here would go the 'Add Product' form.");
-        SwingUtilities.invokeLater(() -> new AddProductvw().setVisible(true));
-        dispose();
-    }
-    
+        // Scroll para grid
+        JScrollPane scrollPane = new JScrollPane(gridPanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        add(mainPanel);
+}
     public void showProducts() {
     	Seller.Products.clear();
     	d.readProductTxt(Seller.Products);
@@ -145,6 +92,15 @@ public class MainSellervw extends JFrame {
 
                      productCard.add(infoPanel, BorderLayout.CENTER);
 
+                     // Panel clickeable
+                     productCard.addMouseListener(new java.awt.event.MouseAdapter() {
+                         @Override
+                         public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        	 SwingUtilities.invokeLater(() -> new ProductSelectedvw(pr.NamePr,String.valueOf(pr.Price),pr.Description,pr.ImagePr).setVisible(true));
+                        	 dispose();
+                         }
+                     });
+
                      // Añadir espacio y panel
                      productListPanel.add(Box.createVerticalStrut(10));
                      productListPanel.add(productCard);
@@ -154,20 +110,11 @@ public class MainSellervw extends JFrame {
             JScrollPane scrollPane = new JScrollPane(productListPanel);
             scrollPane.setBorder(null);
             scrollPane.setPreferredSize(new Dimension(400, 400));
-            productPanelContainer.removeAll();
-            productPanelContainer.add(scrollPane, "SALE");
-            cardLayout.show(productPanelContainer, "SALE");
-
+            mainPanel.add(scrollPane);
+            
             revalidate();
             repaint();
     }
 
-	    	
-	    	
-			
-			
-		}
-		
-	
-
-
+    
+}

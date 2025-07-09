@@ -11,7 +11,8 @@ import java.io.File;
 
 public class AddProductvw extends JFrame {
 
-    private JTextField nameField, priceField, categoryField, stockField;
+    private JTextField nameField, priceField,  stockField;
+    private JComboBox categoryField;
     private JTextArea descriptionArea;
     private JButton publishButton;
     private JLabel imageLabel;
@@ -79,7 +80,9 @@ public class AddProductvw extends JFrame {
 
         // Categoría
         JLabel categoryLabel = new JLabel("Category of product");
-        categoryField = new JTextField();
+        categoryField = new JComboBox<>(new String[] {
+        	"Exclusive offer", "Men", "Women"	
+        });
 
         // Stock
         JLabel stockLabel = new JLabel("Assign stock");
@@ -130,7 +133,7 @@ public class AddProductvw extends JFrame {
     }
 
     public String getFieldCategory() {
-        return categoryField.getText();
+        return (String)categoryField.getSelectedItem();
     }
 
     public String getFieldStock() {

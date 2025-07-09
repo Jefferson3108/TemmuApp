@@ -94,7 +94,8 @@ public class Loginvw extends JFrame {
         		dispose();
         		
         	}else if(prof.ValidateEmailCustomer() && prof.ValidatePasswordCustomer()== true) {
-        		System.out.println("XD");
+        		SwingUtilities.invokeLater(() -> new MainCustomervw().setVisible(true));
+        		dispose();
         	}
         }else {
         	JOptionPane.showMessageDialog(this, "Error, incorrect username and password.");
