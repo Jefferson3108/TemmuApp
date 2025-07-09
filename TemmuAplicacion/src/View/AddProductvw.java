@@ -16,8 +16,13 @@ public class AddProductvw extends JFrame {
     private JButton publishButton;
     private JLabel imageLabel;
     private JButton ImageButton;
+
+    /**
+     * la variable ImageIcon es para que reciba la direccion de la imagen y la muestre
+     * la variable directionImg recibe la direccion de escritorio de la imagen 
+     */
     private ImageIcon ImageProduct;
-    private  String directionImg;
+    private String directionImg;
 
     public AddProductvw() {
         setTitle("Add Product");
@@ -42,6 +47,16 @@ public class AddProductvw extends JFrame {
         imageLabel.setOpaque(true);
         imageLabel.setBackground(new Color(245, 245, 245));
 
+        // Boton Añadir Imagen
+        ImageButton = new JButton("Add Image");
+        ImageButton.setBounds(200, 50, 100, 100); // este setBounds ya no es necesario pero no lo quito por tu instrucción
+        ImageButton.addActionListener(this::onAddImage);
+
+        // Panel combinado para imagen y botón al lado
+        JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        imagePanel.setBackground(Color.WHITE);
+        imagePanel.add(imageLabel);
+        imagePanel.add(ImageButton);
 
         JLabel title = new JLabel("Details", SwingConstants.CENTER);
         title.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -77,14 +92,12 @@ public class AddProductvw extends JFrame {
         publishButton.setForeground(Color.BLACK);
         publishButton.setFocusPainted(false);
         publishButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-        publishButton.addActionListener(this:: onAddProduct);
-        ImageButton= new JButton("Add Image");
-        ImageButton.addActionListener(this:: onAddImage);
+        publishButton.addActionListener(this::onAddProduct);
 
         // Agregar al panel
         panel.add(title);
         panel.add(Box.createVerticalStrut(20));
-        panel.add(imageLabel);
+        panel.add(imagePanel); // Aquí se añade la imagen y el botón juntos
         panel.add(nameLabel);
         panel.add(nameField);
         panel.add(Box.createVerticalStrut(10));
@@ -101,56 +114,58 @@ public class AddProductvw extends JFrame {
         panel.add(stockField);
         panel.add(Box.createVerticalStrut(20));
         panel.add(publishButton);
-        panel.add(ImageButton);
         add(panel);
     }
-    
-    public String getFieldNamePr() {
-    	return nameField.getText();
-    }
-    
-   public String getFieldPrice() {
-	   return priceField.getText();
-   }
-   
-   public String getFieldDescription() {
-	   return descriptionArea.getText();
-   }
-   
-   public String getFieldCategory() {
-	   return categoryField.getText();
-   }
-   
-   public String getFieldStock() {
-	   return stockField.getText();
-   }
-   public String getDirectionImg() {
-	   return this.directionImg;
-   }
-    private void onAddProduct(ActionEvent evt) {
-    	Product prod= new Product(getFieldNamePr(),getDirectionImg(),getFieldPrice(),getFieldDescription(),getFieldStock(),getFieldCategory());
-    	if(prod.publishProduct()==true) {
-    		System.out.println("XD");
-    	}else {
-    		JOptionPane.showMessageDialog(this, "Error, Enter all the data and make sure it is valid.");
-    	}
-    }
-    
-    private void onAddImage(ActionEvent evt) {
-    	JFileChooser fileChooser= new JFileChooser();
-    	FileNameExtensionFilter filterImage= new FileNameExtensionFilter("ImagesProducts","png");
-    	fileChooser.setFileFilter(filterImage);
-    	 int selection = fileChooser.showOpenDialog(AddProductvw.this);
-    	 if(selection == JFileChooser.APPROVE_OPTION) {
-    		 File image= fileChooser.getSelectedFile();
-    	    	this.directionImg= image.getAbsolutePath();
-    	    	ImageProduct= new ImageIcon(directionImg);
-    	    	imageLabel.setIcon(ImageProduct); 
-    	 }
-    }
-    
-    
-    
 
-    
+    public String getFieldNamePr() {
+        return nameField.getText();
+    }
+
+    public String getFieldPrice() {
+        return priceField.getText();
+    }
+
+    public String getFieldDescription() {
+        return descriptionArea.getText();
+    }
+
+    public String getFieldCategory() {
+        return categoryField.getText();
+    }
+
+    public String getFieldStock() {
+        return stockField.getText();
+    }
+
+    public String getDirectionImg() {
+        return this.directionImg;
+    }
+
+    private void onAddProduct(ActionEvent evt) {
+        Product prod = new Product(getFieldNamePr(), getDirectionImg(), getFieldPrice(),
+                getFieldDescription(), getFieldCategory(), getFieldStock());
+       
+        if (!prod.publishProduct()) {
+            JOptionPane.showMessageDialog(this, "Error, Enter all the data and make sure it is valid.");
+        }else {
+        	 SwingUtilities.invokeLater(() -> new MainSellervw().setVisible(true));
+             dispose();
+        }
+    }
+
+    private void onAddImage(ActionEvent evt) {
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filterImage = new FileNameExtensionFilter("ImagesProducts", "png");
+        fileChooser.setFileFilter(filterImage);
+        int selection = fileChooser.showOpenDialog(AddProductvw.this);
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            File image = fileChooser.getSelectedFile();
+            this.directionImg = image.getAbsolutePath();
+            ImageProduct = new ImageIcon(directionImg);
+            Image getImage= ImageProduct.getImage();
+            Image scaleImage= getImage.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon scaledImageIcon= new ImageIcon(scaleImage);
+            imageLabel.setIcon(scaledImageIcon);
+        }
+    }
 }

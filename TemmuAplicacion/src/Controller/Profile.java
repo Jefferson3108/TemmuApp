@@ -165,6 +165,7 @@ public class Profile extends Register {
     public static List<Customer> getlistcs(){
     	return Customers;
     }
+    
 
     /**
      * Validates the entire profile by checking if all required fields are valid.

@@ -3,6 +3,7 @@ package Model;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Controller.Customer;
+import Controller.Product;
 import Controller.Seller;
 
 /**
@@ -166,7 +168,57 @@ public class data  {
     		
     	}
     }
+    
+    public void savedataProduct(List<Product> Products) {
+    	try {
+            // Open file in append mode
+            BufferedWriter writer = new BufferedWriter(new FileWriter("src/images/dataproduct.txt"));
+
+            for (Product pr : Products) {
+                writer.write(
+                        pr.NamePr + "\t" +
+                        pr.ImagePr + "\t" +
+                        pr.Price + "\t" +
+                        pr.Description + "\t" +
+                        pr.Category+ "\t" +
+                        pr.Stock+ "\t" 
+                  
+                );
+                writer.newLine();
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error writing data: " + e.getMessage());
+        }
+    }
+    
+    public void readProductTxt(List<Product> getdataproduct) {
+    	try {
+    		BufferedReader reader = new BufferedReader(new FileReader("src/images/dataproduct.txt"));
+    		String line="";
+    		while((line=reader.readLine())!=null) {
+    			String[] block= line.split("\t");
+    			if(block.length==6) {
+    				String NamePr= block[0];
+        			String ImagePr= block[1];
+        			String Price= block[2];
+        			String Description= block[3];
+        			String Stock= block[4];
+        			String Category= block[5];
+        			getdataproduct.add(new Product(NamePr, ImagePr, Price, Description, Stock, Category));	
+    			}
+    		}
+    		reader.close();
+    		
+    	}catch(IOException e) {
+    		System.out.println("Error writing data: " + e.getMessage());
+    		
+    	}
+    	
+    }
 }
+
 
 
 	

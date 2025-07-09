@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.data;
+
 public class Product {
 	public String NamePr;
 	public String ImagePr;
@@ -7,8 +9,9 @@ public class Product {
 	public String Description;
 	public Integer Stock;
 	public String Category;
+	data d= new data();
 	
-	public Product(String NamePr, String ImagePr, String Price,  String Description, String Stock, String Category) {
+	public Product(String NamePr, String ImagePr, String Price,  String Description, String Category, String Stock) {
 		AssignNamePr(NamePr);
 		AssignImagePr(ImagePr);
 		AssignPrice(Price);
@@ -105,7 +108,9 @@ public class Product {
 	}
 	
 	public Boolean publishProduct() {
-		if(getNamePr() && getImagePr() && getPrice() && getDescriptionPr() && getStock() && getCategory()!= null) {
+		if(getNamePr() && getImagePr() && getPrice() && getDescriptionPr() && getCategory() && getStock()!= null) {
+			Seller.Products.add(new Product(this.NamePr,this.ImagePr,String.valueOf(this.Price),this.Description,this.Category,String.valueOf(this.Stock)));
+			d.savedataProduct(Seller.Products);
 			return true;
 		}else {
 			return false;
