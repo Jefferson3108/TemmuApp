@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import Controller.Customer;
+import Controller.Payment;
 import Controller.Product;
 import Controller.Seller;
+
 
 /**
  * The Data class handles saving seller data to a file.
@@ -126,15 +128,18 @@ public class data  {
     		String line="";
     		while((line=reader.readLine())!=null) {
     			String[] block= line.split("\t");
-    			String name= block[0];
-    			String age= block[1];
-    			String numphon= block[2];
-    			String country= block[3];
-    			String resiadd= block[4];
-    			String email= block[5];
-    			String password= block[6];
-    			String exp= block[7];
-    			getdataseller.add(new Seller(name, age, numphon, country, resiadd, email, password, exp));
+    			if(block.length==8) {
+    				String name= block[0];
+        			String age= block[1];
+        			String numphon= block[2];
+        			String country= block[3];
+        			String resiadd= block[4];
+        			String email= block[5];
+        			String password= block[6];
+        			String exp= block[7];
+        			getdataseller.add(new Seller(name, age, numphon, country, resiadd, email, password, exp));
+    			}
+    	
     		}
     		reader.close();
     		
@@ -150,16 +155,19 @@ public class data  {
     		String line="";
     		while((line=reader.readLine())!=null) {
     			String[] block= line.split("\t");
-    			String name= block[0];
-    			String age= block[1];
-    			String numphon= block[2];
-    			String country= block[3];
-    			String resiadd= block[4];
-    			String email= block[5];
-    			String password= block[6];
-    			getdatacustomer.add(new Customer(name, age, numphon, country, resiadd, email, password));
-    		}
+    			if(block.length==7) {
+    				String name= block[0];
+        			String age= block[1];
+        			String numphon= block[2];
+        			String country= block[3];
+        			String resiadd= block[4];
+        			String email= block[5];
+        			String password= block[6];
+        			getdatacustomer.add(new Customer(name, age, numphon, country, resiadd, email, password));
+        		}	
+    			}
     		reader.close();
+    		
     		
     	}catch(IOException e) {
     		System.out.println("Error writing data: " + e.getMessage());
@@ -243,6 +251,31 @@ public class data  {
     	}
     	return Customers;
     }
+    
+    public void savedataPayments(List<Payment> Payments) {
+        try {
+            // Open file in append mode
+            BufferedWriter writer = new BufferedWriter(new FileWriter("src/images/Payments.txt", true));
+
+            for (Payment py : Payments) {
+                writer.write(
+                        py.PaymentID + "\t" +
+                        py.Datepy + "\t" +
+                        py.CardNumber + "\t" +
+                        py.SecurityCode 
+                        
+                );
+                writer.newLine();
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error writing data: " + e.getMessage());
+        }
+    	
+    	
+    }
+   
 }
 
 

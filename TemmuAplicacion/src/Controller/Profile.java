@@ -51,8 +51,8 @@ public class Profile extends Register {
     }
     public Profile(String email, char[] password) {
     	super(null, null, null, null, null, email, String.valueOf(password), null);
-    	this.validateEmail=email;
-    	this.validatePassword=String.valueOf(password);
+    	Profile.validateEmail=email;
+    	Profile.validatePassword=String.valueOf(password);
     }
 
     /**

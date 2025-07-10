@@ -2,43 +2,66 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+
 import Controller.Customer;
-import Controller.Product;
+import Controller.Payment;
 
 public class Paymentvw extends JFrame {
+	JTextField cardField;
+	JTextField codeField;
 
     public Paymentvw(String NameProduct, String Price, String Image) {
         setTitle("Payment");
         setSize(450, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        initComponents( NameProduct, Price, Image);
+        initComponents(NameProduct, Price, Image);
     }
 
     private void initComponents(String NameProduct, String Price, String getImage) {
-    	Customer c= Customer.currentCustomer;
+        Customer c = Customer.currentCustomer;
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.setBackground(Color.WHITE);
 
-        // Customer info
-        JLabel userInfo = new JLabel("Customer Info", SwingConstants.CENTER);
+        // ========== Customer Info ==========
+        JLabel userInfo = new JLabel("Customer Information");
         userInfo.setFont(new Font("Tahoma", Font.BOLD, 18));
-        userInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        userInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JPanel customerPanel = new JPanel(new GridLayout(3, 1, 5, 5));
+        customerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        customerPanel.setBackground(Color.WHITE);
 
         JLabel nameLabel = new JLabel("Name: " + c.name);
         JLabel addressLabel = new JLabel("Address: " + c.resiadd);
         JLabel countryLabel = new JLabel("Country: " + c.country);
 
-        // Product info
-        JLabel productInfo = new JLabel("Product Info", SwingConstants.CENTER);
+        Font labelFont = new Font("Tahoma", Font.PLAIN, 14);
+        nameLabel.setFont(labelFont);
+        addressLabel.setFont(labelFont);
+        countryLabel.setFont(labelFont);
+
+        customerPanel.add(nameLabel);
+        customerPanel.add(addressLabel);
+        customerPanel.add(countryLabel);
+
+        // ========== Product Info ==========
+        JLabel productInfo = new JLabel("Product Information");
         productInfo.setFont(new Font("Tahoma", Font.BOLD, 18));
-        productInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        productInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JLabel productName = new JLabel("Name: " + NameProduct);
-        JLabel productPrice = new JLabel("Price: $" + Price);
+        JPanel productPanel = new JPanel();
+        productPanel.setLayout(new BorderLayout(10, 10));
+        productPanel.setMaximumSize(new Dimension(400, 120));
+        productPanel.setBackground(new Color(245, 245, 245));
+        productPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+
         JLabel productImage = new JLabel();
-
+        productImage.setPreferredSize(new Dimension(100, 100));
         if (getImage != null && !getImage.isEmpty()) {
             try {
                 ImageIcon icon = new ImageIcon(getImage);
@@ -51,50 +74,107 @@ public class Paymentvw extends JFrame {
             productImage.setText("No image");
         }
 
-        // Payment fields
+        JPanel productText = new JPanel();
+        productText.setLayout(new BoxLayout(productText, BoxLayout.Y_AXIS));
+        productText.setBackground(new Color(245, 245, 245));
+
+        JLabel productName = new JLabel("Name: " + NameProduct);
+        JLabel productPrice = new JLabel("Price: $" + Price);
+        productName.setFont(labelFont);
+        productPrice.setFont(labelFont);
+
+        productText.add(productName);
+        productText.add(productPrice);
+
+        productPanel.add(productImage, BorderLayout.WEST);
+        productPanel.add(productText, BorderLayout.CENTER);
+
+        // ========== Payment Fields ==========
+        JLabel paymentLabel = new JLabel("Payment Details");
+        paymentLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+        paymentLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JPanel cardPanel = new JPanel();
+        cardPanel.setLayout(new GridLayout(2, 2, 10, 10));
+        cardPanel.setBackground(Color.WHITE);
+
         JLabel cardLabel = new JLabel("Card Number:");
-        JTextField cardField = new JTextField();
+         cardField = new JTextField();
+        cardField.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        cardField.setPreferredSize(new Dimension(250, 35));
 
         JLabel codeLabel = new JLabel("Security Code:");
-        JTextField codeField = new JTextField();
+         codeField = new JTextField();
+        codeField.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        codeField.setPreferredSize(new Dimension(120, 35));
 
-        // Payment buttons
-        JPanel methodPanel = new JPanel(new FlowLayout());
-        JButton visaBtn = new JButton("Visa");
-        JButton masterBtn = new JButton("MasterCard");
+        cardLabel.setFont(labelFont);
+        codeLabel.setFont(labelFont);
+
+        cardPanel.add(cardLabel);
+        cardPanel.add(cardField);
+        cardPanel.add(codeLabel);
+        cardPanel.add(codeField);
+
+        // ========== Payment Methods ==========
+        JPanel methodPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
+        methodPanel.setBackground(Color.WHITE);
+        JRadioButton visaRbtn = new JRadioButton("Visa");
+        JRadioButton masterRbtn = new JRadioButton("MasterCard");
+        ButtonGroup group= new ButtonGroup();
+        group.add(masterRbtn);
+        group.add(visaRbtn);;
+        methodPanel.add(visaRbtn);
+        methodPanel.add(masterRbtn);
+
+        // ========== Pay Button ==========
         JButton payBtn = new JButton("PAY NOW");
+        payBtn.setFont(new Font("Tahoma", Font.BOLD, 14));
+        payBtn.setBackground(new Color(103, 58, 183));
+        payBtn.setForeground(Color.WHITE);
+        payBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        payBtn.addActionListener(this::onPayProduct);
 
-        methodPanel.add(visaBtn);
-        methodPanel.add(masterBtn);
-
-        // Add components to panel
+        // ========== Assemble all ==========
         mainPanel.add(userInfo);
         mainPanel.add(Box.createVerticalStrut(10));
-        mainPanel.add(nameLabel);
-        mainPanel.add(addressLabel);
-        mainPanel.add(countryLabel);
-        mainPanel.add(Box.createVerticalStrut(20));
+        mainPanel.add(customerPanel);
 
+        mainPanel.add(Box.createVerticalStrut(20));
         mainPanel.add(productInfo);
         mainPanel.add(Box.createVerticalStrut(10));
-        mainPanel.add(productName);
-        mainPanel.add(productPrice);
-        mainPanel.add(productImage);
-        mainPanel.add(Box.createVerticalStrut(20));
+        mainPanel.add(productPanel);
 
-        mainPanel.add(cardLabel);
-        mainPanel.add(cardField);
+        mainPanel.add(Box.createVerticalStrut(20));
+        mainPanel.add(paymentLabel);
         mainPanel.add(Box.createVerticalStrut(10));
-        mainPanel.add(codeLabel);
-        mainPanel.add(codeField);
-        mainPanel.add(Box.createVerticalStrut(20));
+        mainPanel.add(cardPanel);
 
+        mainPanel.add(Box.createVerticalStrut(20));
         mainPanel.add(methodPanel);
         mainPanel.add(Box.createVerticalStrut(10));
         mainPanel.add(payBtn);
 
         add(mainPanel);
     }
+    public String getTextNumcard() {
+    	return cardField.getText();
+    }
+    
+    public String getTextcodCard() {
+    	return codeField.getText();
+    }
+    public void onPayProduct(ActionEvent evt) {
+    	Payment py= new Payment(getTextNumcard(),getTextcodCard());
+    	if(py.ValidatePurchase()==true) {
+    		JOptionPane.showMessageDialog(this, "Purchase successfully completed");
+    		SwingUtilities.invokeLater(() -> new MainCustomervw().setVisible(true));
+    		dispose();
+    		
+    	}else {
+    		JOptionPane.showMessageDialog(this, "Error,Enter a valid card");
+    	}
+   
+    	
+    }
 }
-
-
