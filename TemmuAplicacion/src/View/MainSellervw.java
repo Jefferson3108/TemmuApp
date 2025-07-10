@@ -14,8 +14,6 @@ public class MainSellervw extends JFrame {
 	data d= new data();
     private CardLayout cardLayout;
     private JPanel productPanelContainer;
-    private Button ProductBtn;
-    private JPanel Panelpr;
     private JPanel mainPanel;
 
 
@@ -33,8 +31,6 @@ public class MainSellervw extends JFrame {
         JLabel title = new JLabel("My Products", SwingConstants.CENTER);
         title.setFont(new Font("Tahoma", Font.BOLD, 18));
 
-        JLabel subtitle = new JLabel("Within 5 miles • $$-$$$", SwingConstants.CENTER);
-        subtitle.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
         // Toggle buttons
         JToggleButton saleButton = new JToggleButton("SALE");
@@ -72,7 +68,6 @@ public class MainSellervw extends JFrame {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.add(title);
-        topPanel.add(subtitle);
         topPanel.add(Box.createVerticalStrut(10));
         topPanel.add(togglePanel);
 
@@ -140,7 +135,7 @@ public class MainSellervw extends JFrame {
                      infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
                      infoPanel.add(new JLabel("Nombre: " + pr.NamePr));
-                     infoPanel.add(new JLabel("Precio: $" + pr.Price));
+                     infoPanel.add(new JLabel("Precio: $" + pr.Price +" Dollars"));
                      infoPanel.add(new JLabel("Stock: " + pr.Stock));
 
                      productCard.add(infoPanel, BorderLayout.CENTER);

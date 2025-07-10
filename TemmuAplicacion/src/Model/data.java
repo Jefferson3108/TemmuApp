@@ -215,6 +215,34 @@ public class data  {
     	}
     	
     }
+    
+    public static List<Customer> getCustomers(){
+    	List<Customer> Customers= new ArrayList<>();
+    	try {
+    		BufferedReader reader = new BufferedReader(new FileReader("src/images/dataapp2.txt"));
+    		String line="";
+    		while((line=reader.readLine())!=null) {
+    			String[] block= line.split("\t");
+    			if(block.length==7) {
+    				String name= block[0];
+        			String age= block[1];
+        			String numphon= block[2];
+        			String country= block[3];
+        			String resiadd= block[4];
+        			String email= block[5];
+        			String password= block[6];
+        			Customer c= new Customer(name,age,numphon,country,resiadd,email,password);
+        			Customers.add(c);
+    			}
+    		}
+    		reader.close();
+    		
+    	}catch(IOException e) {
+    		System.out.println("Error writing data: " + e.getMessage());
+    		
+    	}
+    	return Customers;
+    }
 }
 
 

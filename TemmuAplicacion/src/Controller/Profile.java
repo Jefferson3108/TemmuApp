@@ -13,8 +13,8 @@ public class Profile extends Register {
 	private static  List<Seller> Sellers= new ArrayList<Seller>();
 	private static   List<Customer> Customers= new ArrayList<Customer>();
 	data d= new data();
-	String validateEmail;
-	String validatePassword;
+	static String validateEmail;
+	static String validatePassword;
     /**
      * Constructor for the Profile class.
      * Initializes the attributes by parsing and assigning the data received from the form.
@@ -189,10 +189,10 @@ public class Profile extends Register {
         }
     }
     public String setemail() {
-    	return this.validateEmail;
+    	return Profile.validateEmail;
     }
     public String setpassword(){
-    	return this.validatePassword;
+    	return Profile.validatePassword;
     }
     
     public Boolean ValidateEmailSeller() {
@@ -236,12 +236,18 @@ public class Profile extends Register {
     
     public Boolean ValidateLogin() {
     	if(ValidateEmailSeller() && ValidatePasswordSeller()==true) {
+    		
     		return true;
     	}else if(ValidateEmailCustomer()&& ValidatePasswordCustomer()==true) {
     		return true;
     	}else {
     		return false;
     	}
+    }
+    
+    public static Boolean savecurrentcustomer() { 
+    	Boolean sucess= Customer.AuntenticCustomer(validateEmail, validatePassword);
+    	return sucess;
     }
    
    

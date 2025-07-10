@@ -1,12 +1,22 @@
 package View;
 
 import javax.swing.*;
+import Controller.Customer;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.File;
 
 public class ProductSelectedvw extends JFrame {
+	private String productName;
+	private String productPrice;
+	private String productDescription;
+	private String productImagePath;
 
     public ProductSelectedvw(String title, String price, String description, String imagePath) {
+    	this.productName = title;
+        this.productPrice = price;
+        this.productDescription = description;
+        this.productImagePath = imagePath;
         setTitle("Product Detail");
         setSize(400, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -76,6 +86,7 @@ public class ProductSelectedvw extends JFrame {
         payButton.setForeground(Color.WHITE);
         payButton.setFocusPainted(false);
         payButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        payButton.addActionListener(this::onPayNow);
 
         // Descripción
         JTextArea descArea = new JTextArea(description);
@@ -104,7 +115,17 @@ public class ProductSelectedvw extends JFrame {
 
         add(mainPanel);
     }
+    private void onPayNow(ActionEvent evt) {
+        if (Customer.currentCustomer != null) {
+        	SwingUtilities.invokeLater(() -> new Paymentvw(this.productName,this.productPrice,this.productImagePath).setVisible(true));
+            dispose();
+        } else{
+            JOptionPane.showMessageDialog(this, "No customer is currently logged in.");
+        }
+    }
+    	
+    }
 
    
-}
+
 

@@ -87,7 +87,7 @@ public class MainCustomervw extends JFrame {
                      infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
                      infoPanel.add(new JLabel("Nombre: " + pr.NamePr));
-                     infoPanel.add(new JLabel("Precio: $" + pr.Price));
+                     infoPanel.add(new JLabel("Precio: $" + pr.Price + " Dollars"));
                      infoPanel.add(new JLabel("Stock: " + pr.Stock));
 
                      productCard.add(infoPanel, BorderLayout.CENTER);

@@ -2,8 +2,8 @@ package View;
 
 import javax.swing.*;
 
+import Controller.Payment;
 import Controller.Profile;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
@@ -94,8 +94,9 @@ public class Loginvw extends JFrame {
         		dispose();
         		
         	}else if(prof.ValidateEmailCustomer() && prof.ValidatePasswordCustomer()== true) {
+        		Profile.savecurrentcustomer();
         		SwingUtilities.invokeLater(() -> new MainCustomervw().setVisible(true));
-        		dispose();
+       		dispose();
         	}
         }else {
         	JOptionPane.showMessageDialog(this, "Error, incorrect username and password.");

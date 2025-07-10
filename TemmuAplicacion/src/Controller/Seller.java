@@ -14,6 +14,7 @@ public class Seller extends Register {
 	public String Category;
 	public Boolean Discount;
 	public static List<Product> Products= new ArrayList<Product>();
+	public static Seller currentSeller;
 	public Seller(String name,String age, String numphon, String country, String resiadd, String email,String password,String exp ) {
 		// TODO Auto-generated constructor stub
 		super(name, age, numphon, country, resiadd, email, password, exp);
