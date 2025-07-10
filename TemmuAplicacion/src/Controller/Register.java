@@ -1,24 +1,15 @@
 
-package Controller;
-import java.util.Scanner;
+// Author: Jefferson David Rico Ruiz
 
+package Controller;
 
 /**
  * This class receives the data entered by the user and validates some
- * conditions to keep the data or delete it.
+ * conditions to either keep the data or discard it by setting it to null.
  */
 public class Register {
 
-    /**
-     * @param name     Will store the username
-     * @param age      Will store the age of user
-     * @param numphon  Will store the phone number of user
-     * @param country  Will store the country of user
-     * @param resiadd  Will store the residence address of user
-     * @param email    Will store the email of user
-     * @param password Will store the password of user
-     * @param exp      Will store the experience of user
-     */
+    // === Attributes to hold user data ===
     public String name;
     public Integer age;
     public Long numphon;
@@ -52,11 +43,10 @@ public class Register {
         setexp(exp);
     }
 
+    // === Private Setters with Validation ===
+
     /**
-     * Validates the name entered. If the name is shorter than 3 characters,
-     * it sets it to null.
-     *
-     * @param name User's name input
+     * Validates the name. It must have at least 3 characters.
      */
     private void setname(String name) {
         try {
@@ -70,10 +60,7 @@ public class Register {
     }
 
     /**
-     * Validates the age entered. If the age is less than 18 or negative,
-     * it sets it to null.
-     *
-     * @param age User's age input as string
+     * Validates the age. It must be 18 or older.
      */
     private void setage(String age) {
         try {
@@ -87,10 +74,7 @@ public class Register {
     }
 
     /**
-     * Validates the phone number. If the number does not have exactly 10 digits,
-     * it sets it to null.
-     *
-     * @param numphon Phone number as string
+     * Validates the phone number. It must have exactly 10 digits.
      */
     private void setnumberofphone(String numphon) {
         try {
@@ -105,9 +89,7 @@ public class Register {
     }
 
     /**
-     * Stores the country entered.
-     *
-     * @param country User's country
+     * Assigns the country directly.
      */
     private void setcountry(String country) {
         try {
@@ -118,9 +100,7 @@ public class Register {
     }
 
     /**
-     * Stores the residence address entered.
-     *
-     * @param resiadd User's residence address
+     * Assigns the residence address directly.
      */
     private void setresaddr(String resiadd) {
         try {
@@ -131,17 +111,12 @@ public class Register {
     }
 
     /**
-     * Validates the email. If it does not contain '@gmail.com' or '@hotmail.com',
-     * it sets it to null.
-     *
-     * @param email User's email input
+     * Validates the email. Must contain '@gmail.com' or '@hotmail.com'.
      */
     private void setemail(String email) {
         try {
             this.email = email;
-            if (this.email.contains("@gmail.com") || this.email.contains("@hotmail.com")) {
-                // Valid email
-            } else {
+            if (!(this.email.contains("@gmail.com") || this.email.contains("@hotmail.com"))) {
                 this.email = null;
             }
         } catch (Exception e) {
@@ -150,10 +125,7 @@ public class Register {
     }
 
     /**
-     * Validates the password. If the length is less than 6 characters,
-     * it sets it to null.
-     *
-     * @param password User's password input
+     * Validates the password. Must be at least 6 characters long.
      */
     private void setpassword(String password) {
         try {
@@ -167,9 +139,7 @@ public class Register {
     }
 
     /**
-     * Stores the work experience entered.
-     *
-     * @param exp User's work experience
+     * Assigns the work experience directly.
      */
     private void setexp(String exp) {
         try {
@@ -179,18 +149,18 @@ public class Register {
         }
     }
 
-    // ================== Setter Methods to Validate ==================
+    // === Internal Getters to Validate Field Presence ===
 
     private Boolean getname() {
         return this.name != null;
     }
 
     private Boolean getage() {
-        return String.valueOf(this.age) != null;
+        return this.age != null;
     }
 
     private Boolean getnumberofphone() {
-        return String.valueOf(this.numphon) != null;
+        return this.numphon != null;
     }
 
     private Boolean getcountry() {
@@ -214,26 +184,32 @@ public class Register {
     }
 
     /**
-     * This method checks if all the user data is valid.
-     * If true, creates a Profile object with the current data.
+     * This method validates all the user inputs and attempts to create a Profile object.
+     * If the profile passes its internal validation, the user is successfully registered.
      *
-     * @return true if profile creation is successful, otherwise false
+     * @return true if profile creation is successful, false otherwise
      */
-    
     public Boolean createprof() {
-        if (getname() && getage() && getnumberofphone() && getcountry() && getresadd() && getemail() && getpassword() && getexp() != null) {
-            Profile prof = new Profile(this.name, String.valueOf(this.age), String.valueOf(this.numphon), this.country, this.resiadd, this.email, this.password, this.exp);
-            if (prof.validateprofile() == true) {
-                return true;
-            } else {
-                return false;
-            }
+        if (getname() && getage() && getnumberofphone() && getcountry() &&
+            getresadd() && getemail() && getpassword() && getexp()) {
+
+            Profile prof = new Profile(
+                this.name,
+                String.valueOf(this.age),
+                String.valueOf(this.numphon),
+                this.country,
+                this.resiadd,
+                this.email,
+                this.password,
+                this.exp
+            );
+
+            return prof.validateprofile();
+
         } else {
             return false;
         }
     }
-   
-
 }
 
 

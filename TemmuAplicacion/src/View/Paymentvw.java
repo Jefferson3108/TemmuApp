@@ -1,3 +1,5 @@
+// Author: Jefferson David Rico Ruiz
+
 package View;
 
 import javax.swing.*;
@@ -7,10 +9,23 @@ import java.awt.event.ActionEvent;
 import Controller.Customer;
 import Controller.Payment;
 
+/**
+ * This class represents the payment view in the TEMMU application.
+ * It shows customer and product information, and allows entering credit card data
+ * to simulate a purchase.
+ */
 public class Paymentvw extends JFrame {
-	JTextField cardField;
-	JTextField codeField;
 
+    JTextField cardField;
+    JTextField codeField;
+
+    /**
+     * Constructor to initialize the payment window with product information.
+     * 
+     * @param NameProduct Name of the product being purchased
+     * @param Price       Price of the product
+     * @param Image       Path to product image
+     */
     public Paymentvw(String NameProduct, String Price, String Image) {
         setTitle("Payment");
         setSize(450, 600);
@@ -19,6 +34,14 @@ public class Paymentvw extends JFrame {
         initComponents(NameProduct, Price, Image);
     }
 
+    /**
+     * Initializes the layout and components for customer info, product info,
+     * payment form and button.
+     * 
+     * @param NameProduct Product name
+     * @param Price       Product price
+     * @param getImage    Image path
+     */
     private void initComponents(String NameProduct, String Price, String getImage) {
         Customer c = Customer.currentCustomer;
 
@@ -27,7 +50,7 @@ public class Paymentvw extends JFrame {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         mainPanel.setBackground(Color.WHITE);
 
-        // ========== Customer Info ==========
+        // ===== Customer Info =====
         JLabel userInfo = new JLabel("Customer Information");
         userInfo.setFont(new Font("Tahoma", Font.BOLD, 18));
         userInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -49,13 +72,12 @@ public class Paymentvw extends JFrame {
         customerPanel.add(addressLabel);
         customerPanel.add(countryLabel);
 
-        // ========== Product Info ==========
+        // ===== Product Info =====
         JLabel productInfo = new JLabel("Product Information");
         productInfo.setFont(new Font("Tahoma", Font.BOLD, 18));
         productInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JPanel productPanel = new JPanel();
-        productPanel.setLayout(new BorderLayout(10, 10));
+        JPanel productPanel = new JPanel(new BorderLayout(10, 10));
         productPanel.setMaximumSize(new Dimension(400, 120));
         productPanel.setBackground(new Color(245, 245, 245));
         productPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
@@ -89,22 +111,21 @@ public class Paymentvw extends JFrame {
         productPanel.add(productImage, BorderLayout.WEST);
         productPanel.add(productText, BorderLayout.CENTER);
 
-        // ========== Payment Fields ==========
+        // ===== Payment Details =====
         JLabel paymentLabel = new JLabel("Payment Details");
         paymentLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
         paymentLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JPanel cardPanel = new JPanel();
-        cardPanel.setLayout(new GridLayout(2, 2, 10, 10));
+        JPanel cardPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         cardPanel.setBackground(Color.WHITE);
 
         JLabel cardLabel = new JLabel("Card Number:");
-         cardField = new JTextField();
+        cardField = new JTextField();
         cardField.setFont(new Font("Tahoma", Font.PLAIN, 16));
         cardField.setPreferredSize(new Dimension(250, 35));
 
         JLabel codeLabel = new JLabel("Security Code:");
-         codeField = new JTextField();
+        codeField = new JTextField();
         codeField.setFont(new Font("Tahoma", Font.PLAIN, 16));
         codeField.setPreferredSize(new Dimension(120, 35));
 
@@ -116,18 +137,18 @@ public class Paymentvw extends JFrame {
         cardPanel.add(codeLabel);
         cardPanel.add(codeField);
 
-        // ========== Payment Methods ==========
+        // ===== Payment Methods =====
         JPanel methodPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
         methodPanel.setBackground(Color.WHITE);
         JRadioButton visaRbtn = new JRadioButton("Visa");
         JRadioButton masterRbtn = new JRadioButton("MasterCard");
-        ButtonGroup group= new ButtonGroup();
+        ButtonGroup group = new ButtonGroup();
         group.add(masterRbtn);
-        group.add(visaRbtn);;
+        group.add(visaRbtn);
         methodPanel.add(visaRbtn);
         methodPanel.add(masterRbtn);
 
-        // ========== Pay Button ==========
+        // ===== Pay Button =====
         JButton payBtn = new JButton("PAY NOW");
         payBtn.setFont(new Font("Tahoma", Font.BOLD, 14));
         payBtn.setBackground(new Color(103, 58, 183));
@@ -135,7 +156,7 @@ public class Paymentvw extends JFrame {
         payBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         payBtn.addActionListener(this::onPayProduct);
 
-        // ========== Assemble all ==========
+        // ===== Assemble Panels =====
         mainPanel.add(userInfo);
         mainPanel.add(Box.createVerticalStrut(10));
         mainPanel.add(customerPanel);
@@ -157,24 +178,35 @@ public class Paymentvw extends JFrame {
 
         add(mainPanel);
     }
+
+    /**
+     * Gets the card number input as text.
+     * @return Card number string
+     */
     public String getTextNumcard() {
-    	return cardField.getText();
+        return cardField.getText();
     }
-    
+
+    /**
+     * Gets the security code input as text.
+     * @return Security code string
+     */
     public String getTextcodCard() {
-    	return codeField.getText();
+        return codeField.getText();
     }
+
+    /**
+     * Action triggered when the Pay button is clicked.
+     * Validates the card and shows success or error message.
+     */
     public void onPayProduct(ActionEvent evt) {
-    	Payment py= new Payment(getTextNumcard(),getTextcodCard());
-    	if(py.ValidatePurchase()==true) {
-    		JOptionPane.showMessageDialog(this, "Purchase successfully completed");
-    		SwingUtilities.invokeLater(() -> new MainCustomervw().setVisible(true));
-    		dispose();
-    		
-    	}else {
-    		JOptionPane.showMessageDialog(this, "Error,Enter a valid card");
-    	}
-   
-    	
+        Payment py = new Payment(getTextNumcard(), getTextcodCard());
+        if (py.ValidatePurchase()) {
+            JOptionPane.showMessageDialog(this, "Purchase successfully completed");
+            SwingUtilities.invokeLater(() -> new MainCustomervw().setVisible(true));
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error, enter a valid card");
+        }
     }
 }

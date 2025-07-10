@@ -1,3 +1,5 @@
+// Author: Jefferson David Rico Ruiz
+
 package View;
 
 import java.awt.*;
@@ -5,28 +7,31 @@ import java.awt.event.*;
 import javax.swing.*;
 
 /**
- * This class represents the selection window for the Temmu app.
- * The user can choose between registering as a Seller or a Customer or go to login.
+ * This class represents the initial selection screen for the Temmu app.
+ * It allows users to choose whether to register as a Seller or a Customer, or go directly to Log In.
  */
 public class Selectvw extends JFrame {
 
-    // Components
+    // ===================== UI Components =====================
     private JPanel bg;
     private JButton sellerButton;
     private JButton customerButton;
-    private JButton loginButton; // Nuevo botón
+    private JButton loginButton;
     private JLabel titleLabel;
     private JLabel logoLabel;
     private JLabel orLabel;
     private JLabel instructionLabel;
 
     /**
-     * Constructor that initializes and displays all UI components.
+     * Constructor that initializes and displays the selection screen.
      */
     public Selectvw() {
         showComponents();
     }
 
+    /**
+     * Initializes the full layout: frame setup, components, and adding to content pane.
+     */
     private void showComponents() {
         Frame();
         Panel();
@@ -35,92 +40,100 @@ public class Selectvw extends JFrame {
         getContentPane().add(bg);
     }
 
+    /**
+     * Configures the frame properties (title, size, location, close operation).
+     */
     private void Frame() {
         setTitle("Temmu app");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centrar ventana
+        setLocationRelativeTo(null); // Center the window
     }
 
+    /**
+     * Sets up the main background panel and layout.
+     */
     private void Panel() {
         bg = new JPanel();
         bg.setBackground(Color.WHITE);
-        bg.setLayout(null); // Posicionamiento absoluto
+        bg.setLayout(null); // Absolute layout for manual positioning
     }
 
+    /**
+     * Adds all label components: title, logo, instruction, and separator.
+     */
     private void Labels() {
-        // Título
+        // Main title
         titleLabel = new JLabel("CREATE YOUR TEMMU ACCOUNT");
         titleLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
         titleLabel.setBounds(190, 40, 500, 40);
         bg.add(titleLabel);
 
-        // Logo
+        // Logo icon
         logoLabel = new JLabel();
         ImageIcon icon = new ImageIcon(getClass().getResource("/images/temu_80x80.png"));
         logoLabel.setIcon(icon);
         logoLabel.setBounds(100, 20, 80, 80);
         bg.add(logoLabel);
 
-        // Instrucción
+        // Role instruction
         instructionLabel = new JLabel("Select your role in the app");
         instructionLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
         instructionLabel.setBounds(270, 150, 300, 30);
         bg.add(instructionLabel);
 
-        // Texto "OR"
+        // "OR" separator
         orLabel = new JLabel("OR");
         orLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
         orLabel.setBounds(370, 250, 40, 20);
         bg.add(orLabel);
     }
 
+    /**
+     * Adds and configures the buttons for Seller, Customer, and Log In.
+     */
     private void Buttons() {
-        // Botón Seller
+        // Seller registration button
         sellerButton = new JButton("Seller");
         sellerButton.setBounds(170, 220, 120, 70);
-        sellerButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                sellerButtonActionPerformed(evt);
-            }
-        });
+        sellerButton.addActionListener(this::sellerButtonActionPerformed);
         bg.add(sellerButton);
 
-        // Botón Customer
+        // Customer registration button
         customerButton = new JButton("Customer");
         customerButton.setBounds(460, 220, 120, 70);
-        customerButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                customerButtonActionPerformed(evt);
-            }
-        });
+        customerButton.addActionListener(this::customerButtonActionPerformed);
         bg.add(customerButton);
 
-        // Botón Log In
+        // Log In button
         loginButton = new JButton("Log In");
         loginButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        loginButton.setBounds(325, 330, 150, 50); // Posición centrada debajo de los otros botones
-        loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                loginButtonActionPerformed(evt);
-            }
-        });
+        loginButton.setBounds(325, 330, 150, 50); // Centered below the role options
+        loginButton.addActionListener(this::loginButtonActionPerformed);
         bg.add(loginButton);
     }
 
+    /**
+     * Action triggered when the Seller button is clicked.
+     * Opens the seller registration window.
+     */
     private void sellerButtonActionPerformed(ActionEvent evt) {
         SwingUtilities.invokeLater(() -> new RgSellervw().setVisible(true));
-        dispose();
+        dispose(); // Close current window
     }
 
+    /**
+     * Action triggered when the Customer button is clicked.
+     * Opens the customer registration window.
+     */
     private void customerButtonActionPerformed(ActionEvent evt) {
         SwingUtilities.invokeLater(() -> new RgCustomervw().setVisible(true));
         dispose();
     }
 
     /**
-     * Acción del botón Log In.
-     * Abre la ventana de login directamente.
+     * Action triggered when the Log In button is clicked.
+     * Opens the login window.
      */
     private void loginButtonActionPerformed(ActionEvent evt) {
         SwingUtilities.invokeLater(() -> new Loginvw().setVisible(true));

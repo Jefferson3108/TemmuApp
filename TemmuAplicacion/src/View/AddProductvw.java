@@ -1,3 +1,5 @@
+// Author: Jefferson David Rico Ruiz
+
 package View;
 
 import javax.swing.*;
@@ -9,9 +11,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
+/**
+ * This class represents the GUI for adding a new product.
+ * It allows the user to enter product details, select an image, and publish it.
+ */
 public class AddProductvw extends JFrame {
 
-    private JTextField nameField, priceField,  stockField;
+    private JTextField nameField, priceField, stockField;
     private JComboBox categoryField;
     private JTextArea descriptionArea;
     private JButton publishButton;
@@ -19,12 +25,15 @@ public class AddProductvw extends JFrame {
     private JButton ImageButton;
 
     /**
-     * la variable ImageIcon es para que reciba la direccion de la imagen y la muestre
-     * la variable directionImg recibe la direccion de escritorio de la imagen 
+     * The ImageIcon variable stores the selected image to be displayed.
+     * The directionImg variable holds the path of the selected image from disk.
      */
     private ImageIcon ImageProduct;
     private String directionImg;
 
+    /**
+     * Constructor initializes the window and UI components.
+     */
     public AddProductvw() {
         setTitle("Add Product");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -33,13 +42,16 @@ public class AddProductvw extends JFrame {
         initComponents();
     }
 
+    /**
+     * Initializes and lays out all GUI components.
+     */
     private void initComponents() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
         panel.setBackground(Color.WHITE);
 
-        // Espacio para imagen del producto
+        // Label to display product image
         imageLabel = new JLabel("Product Image", SwingConstants.CENTER);
         imageLabel.setPreferredSize(new Dimension(150, 150));
         imageLabel.setMaximumSize(new Dimension(150, 150));
@@ -48,12 +60,12 @@ public class AddProductvw extends JFrame {
         imageLabel.setOpaque(true);
         imageLabel.setBackground(new Color(245, 245, 245));
 
-        // Boton Añadir Imagen
+        // Button to select an image from file
         ImageButton = new JButton("Add Image");
-        ImageButton.setBounds(200, 50, 100, 100); // este setBounds ya no es necesario pero no lo quito por tu instrucción
+        ImageButton.setBounds(200, 50, 100, 100); // Unused layout setting
         ImageButton.addActionListener(this::onAddImage);
 
-        // Panel combinado para imagen y botón al lado
+        // Panel for image label and image selection button
         JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         imagePanel.setBackground(Color.WHITE);
         imagePanel.add(imageLabel);
@@ -63,32 +75,32 @@ public class AddProductvw extends JFrame {
         title.setFont(new Font("Tahoma", Font.BOLD, 20));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Nombre del producto
+        // Product name input
         JLabel nameLabel = new JLabel("Name of product");
         nameField = new JTextField();
 
-        // Precio
+        // Product price input
         JLabel priceLabel = new JLabel("Price");
         priceField = new JTextField();
 
-        // Descripción
+        // Product description input
         JLabel descLabel = new JLabel("Description of product");
         descriptionArea = new JTextArea(5, 20);
         descriptionArea.setLineWrap(true);
         descriptionArea.setWrapStyleWord(true);
         JScrollPane descScroll = new JScrollPane(descriptionArea);
 
-        // Categoría
+        // Product category selection
         JLabel categoryLabel = new JLabel("Category of product");
         categoryField = new JComboBox<>(new String[] {
-        	"Exclusive offer", "Men", "Women"	
+            "Exclusive offer", "Men", "Women"
         });
 
-        // Stock
+        // Product stock input
         JLabel stockLabel = new JLabel("Assign stock");
         stockField = new JTextField();
 
-        // Botón Publicar
+        // Button to publish the product
         publishButton = new JButton("Publish product");
         publishButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         publishButton.setBackground(Color.ORANGE);
@@ -97,10 +109,10 @@ public class AddProductvw extends JFrame {
         publishButton.setFont(new Font("Tahoma", Font.BOLD, 14));
         publishButton.addActionListener(this::onAddProduct);
 
-        // Agregar al panel
+        // Add all components to panel
         panel.add(title);
         panel.add(Box.createVerticalStrut(20));
-        panel.add(imagePanel); // Aquí se añade la imagen y el botón juntos
+        panel.add(imagePanel);
         panel.add(nameLabel);
         panel.add(nameField);
         panel.add(Box.createVerticalStrut(10));
@@ -117,8 +129,11 @@ public class AddProductvw extends JFrame {
         panel.add(stockField);
         panel.add(Box.createVerticalStrut(20));
         panel.add(publishButton);
+
         add(panel);
     }
+
+    // === Getters for form fields ===
 
     public String getFieldNamePr() {
         return nameField.getText();
@@ -133,7 +148,7 @@ public class AddProductvw extends JFrame {
     }
 
     public String getFieldCategory() {
-        return (String)categoryField.getSelectedItem();
+        return (String) categoryField.getSelectedItem();
     }
 
     public String getFieldStock() {
@@ -144,30 +159,49 @@ public class AddProductvw extends JFrame {
         return this.directionImg;
     }
 
+    /**
+     * Called when the "Publish product" button is clicked.
+     * It creates a Product object and attempts to publish it.
+     * If successful, the main seller view is shown. Otherwise, an error message appears.
+     */
     private void onAddProduct(ActionEvent evt) {
-        Product prod = new Product(getFieldNamePr(), getDirectionImg(), getFieldPrice(),
-                getFieldDescription(), getFieldCategory(), getFieldStock());
-       
+        Product prod = new Product(
+            getFieldNamePr(),
+            getDirectionImg(),
+            getFieldPrice(),
+            getFieldDescription(),
+            getFieldCategory(),
+            getFieldStock()
+        );
+
         if (!prod.publishProduct()) {
             JOptionPane.showMessageDialog(this, "Error, Enter all the data and make sure it is valid.");
-        }else {
-        	 SwingUtilities.invokeLater(() -> new MainSellervw().setVisible(true));
-             dispose();
+        } else {
+            SwingUtilities.invokeLater(() -> new MainSellervw().setVisible(true));
+            dispose();
         }
     }
 
+    /**
+     * Called when the "Add Image" button is clicked.
+     * Allows the user to select an image and displays it scaled in the image label.
+     */
     private void onAddImage(ActionEvent evt) {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filterImage = new FileNameExtensionFilter("ImagesProducts", "png");
         fileChooser.setFileFilter(filterImage);
+
         int selection = fileChooser.showOpenDialog(AddProductvw.this);
         if (selection == JFileChooser.APPROVE_OPTION) {
             File image = fileChooser.getSelectedFile();
             this.directionImg = image.getAbsolutePath();
             ImageProduct = new ImageIcon(directionImg);
-            Image getImage= ImageProduct.getImage();
-            Image scaleImage= getImage.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
-            ImageIcon scaledImageIcon= new ImageIcon(scaleImage);
+
+            Image getImage = ImageProduct.getImage();
+            Image scaleImage = getImage.getScaledInstance(
+                imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH
+            );
+            ImageIcon scaledImageIcon = new ImageIcon(scaleImage);
             imageLabel.setIcon(scaledImageIcon);
         }
     }

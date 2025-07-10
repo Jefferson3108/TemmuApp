@@ -1,3 +1,5 @@
+// Author: Jefferson David Rico Ruiz
+
 package View;
 
 import javax.swing.*;
@@ -44,8 +46,8 @@ public class RgCustomervw extends JFrame {
 
         // Logo with text
         JLabel temuLogo = new JLabel(
-                "TEMMU", 
-                new ImageIcon(getClass().getResource("/images/temu_80x80.png")), 
+                "TEMMU",
+                new ImageIcon(getClass().getResource("/images/temu_80x80.png")),
                 JLabel.LEFT
         );
         temuLogo.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -189,7 +191,7 @@ public class RgCustomervw extends JFrame {
         );
 
         // If profile creation is successful
-        if (rg.createprof()==true) {
+        if (rg.createprof() == true) {
             JLabel fieldVerification = new JLabel();
             fieldVerification.setBounds(10, 20, 100, 30);
             panel.add(fieldVerification);

@@ -1,10 +1,11 @@
+// Author: Jefferson David Rico Ruiz
+
 package View;
 
 import javax.swing.*;
 import Controller.Register;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 
 /**
  * This class represents the registration form for a Seller in the Temmu app.
@@ -24,7 +25,7 @@ public class RgSellervw extends JFrame {
 
     // Dropdown for selecting the country
     private final JComboBox<String> comboCountry = new JComboBox<>(new String[]{
-            "Colombia", "Mexico", "Argentina", "Brazil"
+        "Colombia", "Mexico", "Argentina", "Brazil"
     });
 
     // Text area for work experience
@@ -62,9 +63,9 @@ public class RgSellervw extends JFrame {
 
         // Logo and App Name
         JLabel logo = new JLabel(
-                "TEMMU",
-                new ImageIcon(getClass().getResource("/images/temu_80x80.png")),
-                JLabel.LEFT
+            "TEMMU",
+            new ImageIcon(getClass().getResource("/images/temu_80x80.png")),
+            JLabel.LEFT
         );
         logo.setFont(new Font("Tahoma", Font.BOLD, 24));
         panel.add(logo, gbc);
@@ -216,26 +217,21 @@ public class RgSellervw extends JFrame {
     private void onNext(ActionEvent e) {
         // Create Register object with user input
         Register rg = new Register(
-                getFieldName(),
-                getFieldAge(),
-                getFieldPhone(),
-                getSelectedCountry(),
-                getFieldAddress(),
-                getFieldEmail(),
-                getFieldPassword(),
-                getFieldExp()
+            getFieldName(),
+            getFieldAge(),
+            getFieldPhone(),
+            getSelectedCountry(),
+            getFieldAddress(),
+            getFieldEmail(),
+            getFieldPassword(),
+            getFieldExp()
         );
 
         // Check if profile creation is successful
-        if (rg.createprof()==true) {
-            JLabel fieldVerification = new JLabel();
-            fieldVerification.setBounds(10, 20, 100, 30);
-            panel.add(fieldVerification);
+        if (rg.createprof()) {
             JOptionPane.showMessageDialog(this, "Information submitted successfully.");
             SwingUtilities.invokeLater(() -> new Loginvw().setVisible(true));
             dispose();
-            
-            
         } else {
             JOptionPane.showMessageDialog(this, "Error, please enter valid data again.");
         }
