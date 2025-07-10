@@ -252,29 +252,7 @@ public class data  {
     	return Customers;
     }
     
-    public void savedataPayments(List<Payment> Payments) {
-        try {
-            // Open file in append mode
-            BufferedWriter writer = new BufferedWriter(new FileWriter("src/images/Payments.txt", true));
 
-            for (Payment py : Payments) {
-                writer.write(
-                        py.PaymentID + "\t" +
-                        py.Datepy + "\t" +
-                        py.CardNumber + "\t" +
-                        py.SecurityCode 
-                        
-                );
-                writer.newLine();
-            }
-
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("Error writing data: " + e.getMessage());
-        }
-    	
-    	
-    }
    
 }
 
