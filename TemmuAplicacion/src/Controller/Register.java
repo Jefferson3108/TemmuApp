@@ -191,7 +191,7 @@ public class Register {
      */
     public Boolean createprof() {
         if (getname() && getage() && getnumberofphone() && getcountry() &&
-            getresadd() && getemail() && getpassword() && getexp()) {
+            getresadd() && getemail() && getpassword() ) {
 
             Profile prof = new Profile(
                 this.name,
